@@ -1,0 +1,17 @@
+{
+  "name": "340-project-hbs",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Sangtawun Miller & Andrea Irwin",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "express-handlebars": "^6.0.7",
+    "forever": "^4.0.3",
+    "mysql": "^2.18.1"
+  },
+  "description": ""
+}

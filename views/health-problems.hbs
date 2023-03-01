@@ -1,0 +1,85 @@
+<header>
+    <h1>Health Problems</h1>
+</header>
+
+{{!-- Nav bar for links to all pages on the site --}}
+<nav>
+    <a href="/index.hbs">Home</a>
+    <a href="/locations.hbs">Locations</a>
+    <a href="/people.hbs">People</a>
+    <a href="/health-problems.hbs">Health Problems</a>
+    <a href="/individual-health-issues.hbs">Individual Health Issues</a>
+    <a href="/city-health-issues.hbs">Health Issues By City</a>
+    <a href="/pollution-by-day.hbs">Dates with Pollution Data</a>
+    <a href="/daily-location-pollution.hbs">Daily Pollution in Each Location</a>
+</nav>
+
+{{!-- Health Problems Display Table --}}
+<div id="browse">
+    <h3>Browse Locations</h3>
+
+    <table>
+        <thead>
+
+            <tr>
+                {{#each data.[0]}}
+                <th>
+                    {{@key}}
+                </th>
+                {{/each}}
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {{#each data}}
+            <tr>
+                <td>{{this.problem_ID}}</td>
+                <td>{{this.problem_name}}</td>
+                <td>{{this.problem_characteristics}}</td>
+                <td>{{this.is_terminal}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+
+<!-- Add new health problem -->
+<div id="insert">
+    <form id="addHealthProblem">
+        <legend><strong>Add Health Problem</strong></legend>
+        <fieldset class="fields">
+            <label> Health Issue </label> <input type="text" name="health issue">
+            <label> Health Issue Characteristics </label> <input type="text" name="health issue Characteristics">
+            <label for="terminal"> is Terminal? </label>
+            <select name="terminal" id="terminal">
+                <option value="select">Select Yes/No</option>
+                <option value="0">Yes</option>
+                <option value="1">No</option>
+            </select>
+        </fieldset>
+        <input class="btn" type="submit" id="addHealthProblem" value="Add Health Problem">
+    </form>
+</div>
+
+<!-- Update health problem attributes -->
+<div id="update">
+    <form id="updateHealthProblem">
+        <legend><strong>Update Health Problem</strong></legend>
+        <fieldset class="fields">
+            <label for="health problem"> Select a Health Problem: </label>
+            <select name="health problem" id="health problem">
+                <option value="select">Select</option>
+                <!-- dynamically generated drop down -->
+            </select>
+            <label> Health Issue Characteristics </label> <input type="text" name="health issue characteristics">
+            <label for="terminal"> is Terminal? </label>
+            <select name="terminal" id="terminal">
+                <option value="select">Select Yes/No</option>
+                <option value="0">Yes</option>
+                <option value="1">No</option>
+            </select>
+        </fieldset>
+        <input class="btn" type="submit" id="updateHealthProblem" value="Update Health Problem">
+    </form>
+</div>

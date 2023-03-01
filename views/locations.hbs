@@ -1,0 +1,74 @@
+<header>
+    <h1>Locations</h1>
+</header>
+
+{{!-- Nav bar for links to all pages on the site --}}
+<nav>
+    <a href="/index.hbs">Home</a>
+    <a href="/locations.hbs">Locations</a>
+    <a href="/people.hbs">People</a>
+    <a href="/health-problems.hbs">Health Problems</a>
+    <a href="/individual-health-issues.hbs">Individual Health Issues</a>
+    <a href="/city-health-issues.hbs">Health Issues By City</a>
+    <a href="/pollution-by-day.hbs">Dates with Pollution Data</a>
+    <a href="/daily-location-pollution.hbs">Daily Pollution in Each Location</a>
+</nav>
+
+{{!-- Locations Display Table --}}
+<div id="browse">
+    <h3>Browse Locations</h3>
+
+    <table id="location-table">
+        <thead>
+    
+            <tr>
+                {{#each data.[0]}}
+                <th>
+                    {{@key}}
+                </th>
+                {{/each}}
+            </tr>
+        </thead>
+    
+        <tbody>
+    
+            {{#each data}}
+            <tr>
+                <td>{{this.location_ID}}</td>
+                <td>{{this.city_name}}</td>
+                <td>{{this.state_name}}</td>
+                <td>{{this.total_population}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+
+{{!-- Add new location --}}
+<div id="insert">
+    <form id="addLocation">
+        <legend><strong>Add Location</strong></legend>
+        <fieldset class="fields">
+            <label> City Name </label> <input type="text" name="city">
+            <label> State Name </label> <input type="text" name="state">
+            <label> Population </label> <input type="number" name="population">
+        </fieldset>
+        <input class="btn" type="submit" id="addLocation" value="Add Location">
+    </form>
+</div>
+
+{{!-- Update location attributes --}}
+<div id="update">
+    <form id="updateLocation">
+        <legend><strong>Update Location</strong></legend>
+        <fieldset class="fields">
+            <label for="city"> Select a City: </label>
+            <select name="city" id="city">
+                <option value="select">Select a City</option>
+                <!-- dynamically generated drop down -->
+            </select>
+            <label> Total Population </label> <input type="number" name="population">
+        </fieldset>
+        <input class="btn" type="submit" id="UpdateLocation" value="Update Location">
+    </form>
+</div>

@@ -1,0 +1,79 @@
+<header>
+    <h1>Individual Health Issues</h1>
+</header>
+
+{{!-- Nav bar for links to all pages on the site --}}
+<nav>
+    <a href="/index.hbs">Home</a>
+    <a href="/locations.hbs">Locations</a>
+    <a href="/people.hbs">People</a>
+    <a href="/health-problems.hbs">Health Problems</a>
+    <a href="/individual-health-issues.hbs">Individual Health Issues</a>
+    <a href="/city-health-issues.hbs">Health Issues By City</a>
+    <a href="/pollution-by-day.hbs">Dates with Pollution Data</a>
+    <a href="/daily-location-pollution.hbs">Daily Pollution in Each Location</a>
+</nav>
+
+{{!-- Individual Health Issues Display Table --}}
+<div id="browse">
+    <h3>Browse Locations</h3>
+
+    <table>
+        <thead>
+
+            <tr>
+                {{#each data.[0]}}
+                <th>
+                    {{@key}}
+                </th>
+                {{/each}}
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {{#each data}}
+            <tr>
+                <td>{{this.person_health_ID}}</td>
+                <td>{{this.person_ID}}</td>
+                <td>{{this.problem_ID}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+
+<!-- See all health issues associated with specific person -->
+<div id="browse">
+    <form id="browseIndividualHealthIssue">
+        <legend><strong>Browse Health Issues by Person</strong></legend>
+        <fieldset class="fields">
+            <label for="person"> Select the Personal ID: </label>
+            <select name="person" id="person">
+                <option value="select">Select</option>
+                <!-- dynamically generated drop down -->
+            </select>
+        </fieldset>
+        <input class="btn" type="submit" id="browseIndividualHealthIssue" value="View All">
+    </form>
+</div>
+
+<!-- Associate a new health problem with a specific person -->
+<div id="insert">
+    <form id="addIndividualHealthIssue">
+        <legend><strong>Associate Individuals with a Health Issue</strong></legend>
+        <fieldset class="fields">
+            <label for="person"> Select the Personal ID: </label>
+            <select name="person" id="person">
+                <option value="select">Select</option>
+                <!-- dynamically generated drop down -->
+            </select>
+            <label for="health problem"> Select a Health Problem: </label>
+            <select name="health problem" id="health problem">
+                <option value="select">Select</option>
+                <!-- dynamically generated drop down -->
+            </select>
+        </fieldset>
+        <input class="btn" type="submit" id="addIndividualHealthIssue" value="Add Health Issue">
+    </form>
+</div>
