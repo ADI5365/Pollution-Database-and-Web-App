@@ -127,10 +127,10 @@ app.post('/updatePerson', (req, res) => {
 app.delete('/delete-person-ajax/', function(req,res,next){
     let data = req.body;
     let person_ID = parseInt(data.id);
-    let deleteIndividual_Health_Issues_Person = `DELETE FROM Individual_Health_Issues WHERE person_ID = ?`;
+    let deleteIndividual_Health_Issues_Person = `DELETE FROM Individual_Health_Issues WHERE person_health_ID = ?`;
     let deletePerson = `DELETE FROM People WHERE person_ID = ?`;
 
-        db.pool.query(deletePerson, [person_ID], function(error, rows, fields){
+        db.pool.query(deleteIndividual_Health_Issues_Person, [person_ID], function(error, rows, fields){
             if (error) {
             // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
             console.log(error);
@@ -138,7 +138,7 @@ app.delete('/delete-person-ajax/', function(req,res,next){
             }
             else
             {
-                db.pool.query(deleteIndividual_Health_Issues_Person, [person_ID], function(error, rows, fields) {
+                db.pool.query(deletePerson, [person_ID], function(error, rows, fields) {
                     if (error) {
                         console.log(error);
                         res.sendStatus(400);
