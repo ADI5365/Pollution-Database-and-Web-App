@@ -1,8 +1,12 @@
- <html>
+<html>
 <header>
     <h1>People</h1>
 </header>
-
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type = "text/javascript" src="./js/delete_person.js"></script>
+</head>
+<body>
 {{!-- Nav bar for links to all pages on the site --}}
 <nav>
     <a href="/">Home</a>
@@ -15,10 +19,9 @@
     <a href="/daily-location-pollution">Daily Pollution in Each Location</a>
 </nav>
 
-{{!-- Locations Display Table --}}
+{{!-- People Display Table --}}
 <div id="browse">
     <h3>Browse People</h3>
-
     <table id="people-table">
         <thead>
     
@@ -28,24 +31,26 @@
                     {{@key}}
                 </th>
                 {{/each}}
+                <th>Delete</th>
             </tr>
         </thead>
     
         <tbody>
-    
+
             {{#each data}}
             <tr>
                 <td>{{this.person_ID}}</td>
                 <td>{{this.age}}</td>
                 <td>{{this.location_ID}}</td>
+                <td><button onclick="deletePerson({{this.person_ID}})">Delete</button></td>
             </tr>
             {{/each}}
         </tbody>
     </table>
-</div>
-</html>
+    
 
-{{!-- Add new location --}}
+
+{{!-- Add new person --}}
 <div id="insert">
     <form id="addPerson" method="POST" action="/addPerson">
         <legend><strong>Add Person</strong></legend>
@@ -65,25 +70,26 @@
 
 {{!-- Update person attributes --}}
 <div id="update">
-    <form id="updatePerson" method="POST" action="/updatePerson">
+    <form id="update-person-form-ajax">
         <legend><strong>Update Person</strong></legend>
-        <fieldset class="fields">
-            <label for="person"> Select a Person: </label>
+            <label for="input-person_ID"> Select a Person: </label>
             <select name="input-person_ID" id="person">
-                <option value="select">Select the Person's ID</option>
-                {{#each people}}
-                <option value="{{this.person_ID}}">{{this.person_ID}} {{this.age}}</option>
+                <option value="">Select the Person's ID</option>
+                {{#each data}}
+                <option value="{{this.person_ID}}">{{this.person_ID}}</option>
                 {{/each}}
             </select>
             <label> Age </label> <input type="number" name="input-age">
-            <label for="city"> Select a City: </label>
+            <label for="input-location_ID"> Select a City: </label>
             <select name="input-location_ID" id="city">
                 <option value="select">Select a City</option>
                 {{#each locations}}
                 <option value="{{this.location_ID}}">{{this.city_name}}</option>
                 {{/each}}
             </select>
-        </fieldset>
-        <input class="btn" type="submit" id="UpdatePerson" value="Update Person">
+        <input type="submit">
     </form>
+    <script src="./js/update_person.js"></script>
 </div>
+</body>
+</html>
