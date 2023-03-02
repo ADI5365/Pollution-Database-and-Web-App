@@ -1,10 +1,10 @@
 /*
     SETUP
 */
-const express = require('express');
-const app = express();
-PORT = 3565;
-let db = require('./database/db-connector');
+var express = require('express');
+var app = express();
+PORT = 3570;
+var db = require('./database/db-connector');
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
@@ -24,9 +24,16 @@ app.get('/', (req, res) => {
 });
 
 app.get('/locations', (req, res) => {
-    let query1 = 'SELECT * from Locations:';
+    let query1 = 'SELECT * from Locations;';
     db.pool.query(query1, function(error, rows, fields) {
         res.render('locations', {data: rows});
+    });
+});
+
+app.get('/people', (req, res) => {
+    let query1 = 'SELECT * from People;';
+    db.pool.query(query1, function(error, rows, fields) {
+        res.render('people', {data: rows});
     });
 });
 
@@ -81,6 +88,7 @@ app.post('updateLocation', (req, res) => {
         }
     })
 });
+
 
 /*
     LISTENER

@@ -1,26 +1,27 @@
+<html>
 <header>
     <h1>People</h1>
 </header>
 
 {{!-- Nav bar for links to all pages on the site --}}
 <nav>
-    <a href="/index.hbs">Home</a>
-    <a href="/locations.hbs">Locations</a>
-    <a href="/people.hbs">People</a>
-    <a href="/health-problems.hbs">Health Problems</a>
-    <a href="/individual-health-issues.hbs">Individual Health Issues</a>
-    <a href="/city-health-issues.hbs">Health Issues By City</a>
-    <a href="/pollution-by-day.hbs">Dates with Pollution Data</a>
-    <a href="/daily-location-pollution.hbs">Daily Pollution in Each Location</a>
+    <a href="/">Home</a>
+    <a href="/locations">Locations</a>
+    <a href="/people">People</a>
+    <a href="/health-problems">Health Problems</a>
+    <a href="/individual-health-issues">Individual Health Issues</a>
+    <a href="/city-health-issues">Health Issues By City</a>
+    <a href="/pollution-by-day">Dates with Pollution Data</a>
+    <a href="/daily-location-pollution">Daily Pollution in Each Location</a>
 </nav>
 
-{{!-- People Display Table --}}
+{{!-- Locations Display Table --}}
 <div id="browse">
-    <h3>Browse Locations</h3>
+    <h3>Browse People</h3>
 
-    <table>
+    <table id="people-table">
         <thead>
-
+    
             <tr>
                 {{#each data.[0]}}
                 <th>
@@ -29,9 +30,9 @@
                 {{/each}}
             </tr>
         </thead>
-
+    
         <tbody>
-
+    
             {{#each data}}
             <tr>
                 <td>{{this.person_ID}}</td>
@@ -42,40 +43,4 @@
         </tbody>
     </table>
 </div>
-
-<!-- Add new person -->
-<div id="insert">
-    <form id="addPerson">
-        <legend><strong>Add Person</strong></legend>
-        <fieldset class="fields">
-            <label> Age </label> <input type="number" name="city">
-            <label for="city"> Select a City: </label>
-            <select name="city" id="city">
-                <option value="select">Select a City</option>
-                <!-- dynamically generated drop down -->
-            </select>
-        </fieldset>
-        <input class="btn" type="submit" id="addPerson" value="Add Person">
-    </form>
-</div>
-
-<!-- Update person attributes -->
-<div id="update">
-    <form id="updatePerson">
-        <legend><strong>Update Person</strong></legend>
-        <fieldset class="fields">
-            <label for="person"> Select a Person: </label>
-            <select name="person" id="person">
-                <option value="select">Select the Person's ID</option>
-                <!-- dynamically generated drop down -->
-            </select>
-            <label> Age </label> <input type="number" name="age">
-            <label for="city"> Select a City: </label>
-            <select name="city" id="city">
-                <option value="select">Select a City</option>
-                <!-- dynamically generated drop down -->
-            </select>
-        </fieldset>
-        <input class="btn" type="submit" id="UpdatePerson" value="Update Person">
-    </form>
-</div>
+</html>
