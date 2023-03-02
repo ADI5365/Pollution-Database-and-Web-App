@@ -23,6 +23,7 @@ app.get('/', (req, res) => {
     res.render('index');
 });
 
+// Display table on Locations
 app.get('/locations', (req, res) => {
     let query1 = 'SELECT * from Locations;';
     db.pool.query(query1, function(error, rows, fields) {
@@ -30,35 +31,22 @@ app.get('/locations', (req, res) => {
     });
 });
 
-app.get('/people', (req, res) => {
-    let query1 = 'SELECT * from People;';
-    db.pool.query(query1, function(error, rows, fields) {
-        res.render('people', {data: rows});
-    });
-});
-
+// Add new location
 app.post('/addLocation', (req, res) => {
     let data = req.body;
 
-    query1 = `INSERT INTO Locations (city_name, state_name, total_population) VALUES ('${data.city_name}', '${data.state_name}', '${data.total_population}')`;
+    query1 = `INSERT INTO Locations (city_name, state_name, total_population) VALUES ('${data['input-city_name']}', '${data['input-state_name']}', '${data['input-total_population']}')`;
     db.pool.query(query1, function(error, rows, fields) {
         if(error) {
             console.log(error);
             res.sendStatus(400);
         } else {
-            query2 = `SELECT * FROM Locations`;
-            db.pool.query(query2, function(error, rows, fields) {
-                if(error) {
-                    console.log(error);
-                    res.sendStatus(400);
-                } else {
-                    res.send(rows);
-                }
-            })
+            res.redirect('/locations')
         }
     })
 });
 
+// Update existing location population
 app.post('updateLocation', (req, res) => {
     let data = req.body;
 
@@ -68,27 +56,79 @@ app.post('updateLocation', (req, res) => {
             console.log(error);
             res.sendStatus(400);
         } else {
-            query2 = `UPDATE Locations SET '${data.total_population}'`;
+            query2 = `UPDATE Locations SET '${data['input-total_population']}'`;
             db.pool.query(query2, function(error, rows, fields) {
                 if(error) {
                     console.log(error);
                     res.sendStatus(400);
                 } else {
-                    query3 = `SELECT * FROM Locations`;
-                    db.pool.query(query3, function(error, rows, fields) {
-                        if(error) {
-                            console.log(error);
-                            res.sendStatus(400);
-                        } else {
-                            res.send(rows);
-                        }
-                    })
+                    res.redirect('/locations')
                 }
             })
         }
     })
 });
 
+// Display table on People
+app.get('/people', (req, res) => {
+    let query1 = 'SELECT * from People;';
+    db.pool.query(query1, function(error, rows, fields) {
+        res.render('people', {data: rows});
+    });
+});
+
+// Add new person
+app.post('/addPerson', (req, res) => {
+    let data = req.body;
+
+    query1 = `INSERT INTO People (age, location_ID) VALUES ('${data['input-age']}', '${data['input-location_ID']}')`;
+    db.pool.query(query1, function(error, rows, fields) {
+        if(error) {
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            res.redirect('/people')
+        }
+    })
+});
+
+// Update existing person age
+app.post('updatePerson', (req, res) => {
+    let data = req.body;
+
+    query1 = `SELECT person_ID FROM People`;
+    db.pool.query(query1, function(error, rows, fields) {
+        if(error) {
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            query2 = `UPDATE People SET '${data['input-age']}'`;
+            db.pool.query(query2, function(error, rows, fields) {
+                if(error) {
+                    console.log(error);
+                    res.sendStatus(400);
+                } else {
+                    res.redirect('/people')
+                }
+            })
+        }
+    })
+});
+
+// Delete a person
+app.post('/deletePerson', (req, res) => {
+    let data = req.body;
+
+    query1 = `DELETE FROM People WHERE person_ID = ${data['input-person_ID']}`;
+    db.pool.query(query1, function(error, rows, fields) {
+        if(error) {
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            res.redirect('/people')
+        }
+    })
+});
 
 /*
     LISTENER

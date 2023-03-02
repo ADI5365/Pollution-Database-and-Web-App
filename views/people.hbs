@@ -1,4 +1,4 @@
-<html>
+ <html>
 <header>
     <h1>People</h1>
 </header>
@@ -44,3 +44,40 @@
     </table>
 </div>
 </html>
+
+{{!-- Add new location --}}
+<div id="insert">
+    <form id="addPerson">
+        <legend><strong>Add Person</strong></legend>
+        <fieldset class="fields">
+            <label> Age </label> <input type="number" name="city">
+            <label for="city"> Select a City: </label>
+            <select name="city" id="city">
+                <option value="select">Select a City</option>
+                <!-- dynamically generated drop down -->
+            </select>
+        </fieldset>
+        <input class="btn" type="submit" id="addPerson" value="Add Person">
+    </form>
+</div>
+
+{{!-- Update person attributes --}}
+<div id="update">
+    <form id="updatePerson">
+        <legend><strong>Update Person</strong></legend>
+        <fieldset class="fields">
+            <label for="person"> Select a Person: </label>
+            <select name="person" id="person">
+                <option value="select">Select the Person's ID</option>
+                <!-- dynamically generated drop down -->
+            </select>
+            <label> Age </label> <input type="number" name="age">
+            <label for="city"> Select a City: </label>
+            <select name="city" id="city">
+                <option value="select">Select a City</option>
+                <!-- dynamically generated drop down -->
+            </select>
+        </fieldset>
+        <input class="btn" type="submit" id="UpdatePerson" value="Update Person">
+    </form>
+</div>
