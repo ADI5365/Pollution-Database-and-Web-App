@@ -73,12 +73,16 @@ app.post('updateLocation', (req, res) => {
 app.get('/people', (req, res) => {
     let query1 = 'SELECT * FROM People;';
     let query2 = 'SELECT * FROM Locations;';
+    let query3 = 'SELECT * FROM People;';
 
     db.pool.query(query1, function(error, rows, fields) {
         let people = rows;
         db.pool.query(query2, (error, rows, fields) => {
             let locations = rows;
-            return res.render('people', {data: people, locations: locations})
+            db.pool.query(query3, (error, rows, fields) => {
+                let people = rows
+                return res.render('people', {data: people, locations: locations, people: people})
+            })
         })
     });
 });

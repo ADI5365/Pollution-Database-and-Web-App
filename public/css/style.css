@@ -105,6 +105,14 @@ input, select {
     width: 100%;
 }
 
+#deletePerson {
+    border-radius: 5px;
+    padding: 3px;
+    border: 1px solid;
+    color: #00008B;
+    text-decoration: none;
+}
+
 .btn:hover, #delete:hover {
     background-color: lightgray;
     cursor: pointer;

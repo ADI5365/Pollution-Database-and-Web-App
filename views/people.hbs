@@ -71,13 +71,17 @@
             <label for="person"> Select a Person: </label>
             <select name="input-person_ID" id="person">
                 <option value="select">Select the Person's ID</option>
-                <!-- dynamically generated drop down -->
+                {{#each people}}
+                <option value="{{this.person_ID}}">{{this.person_ID}} {{this.age}}</option>
+                {{/each}}
             </select>
             <label> Age </label> <input type="number" name="input-age">
             <label for="city"> Select a City: </label>
-            <select name="input-location" id="city">
+            <select name="input-location_ID" id="city">
                 <option value="select">Select a City</option>
-                <!-- dynamically generated drop down -->
+                {{#each locations}}
+                <option value="{{this.location_ID}}">{{this.city_name}}</option>
+                {{/each}}
             </select>
         </fieldset>
         <input class="btn" type="submit" id="UpdatePerson" value="Update Person">
