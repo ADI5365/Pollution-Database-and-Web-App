@@ -3,7 +3,7 @@
 */
 var express = require('express');
 var app = express();
-PORT = 3570;
+PORT = 3565;
 var db = require('./database/db-connector');
 
 app.use(express.json());
@@ -71,9 +71,15 @@ app.post('updateLocation', (req, res) => {
 
 // Display table on People
 app.get('/people', (req, res) => {
-    let query1 = 'SELECT * from People;';
+    let query1 = 'SELECT * FROM People;';
+    let query2 = 'SELECT * FROM Locations;';
+
     db.pool.query(query1, function(error, rows, fields) {
-        res.render('people', {data: rows});
+        let people = rows;
+        db.pool.query(query2, (error, rows, fields) => {
+            let locations = rows;
+            return res.render('people', {data: people, locations: locations})
+        })
     });
 });
 

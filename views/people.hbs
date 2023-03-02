@@ -47,14 +47,16 @@
 
 {{!-- Add new location --}}
 <div id="insert">
-    <form id="addPerson">
+    <form id="addPerson" method="POST" action="/addPerson">
         <legend><strong>Add Person</strong></legend>
         <fieldset class="fields">
-            <label> Age </label> <input type="number" name="city">
-            <label for="city"> Select a City: </label>
-            <select name="city" id="city">
-                <option value="select">Select a City</option>
-                <!-- dynamically generated drop down -->
+            <label> Age </label> <input type="number" name="input-age">
+            <label for="input-location_ID"> Select a City: </label>
+            <select name="input-location_ID" id="city">
+                <option value="">Select a City</option>
+                {{#each locations}}
+                <option value="{{this.location_ID}}">{{this.city_name}}</option>
+                {{/each}}
             </select>
         </fieldset>
         <input class="btn" type="submit" id="addPerson" value="Add Person">
@@ -63,17 +65,17 @@
 
 {{!-- Update person attributes --}}
 <div id="update">
-    <form id="updatePerson">
+    <form id="updatePerson" method="POST" action="/updatePerson">
         <legend><strong>Update Person</strong></legend>
         <fieldset class="fields">
             <label for="person"> Select a Person: </label>
-            <select name="person" id="person">
+            <select name="input-person_ID" id="person">
                 <option value="select">Select the Person's ID</option>
                 <!-- dynamically generated drop down -->
             </select>
-            <label> Age </label> <input type="number" name="age">
+            <label> Age </label> <input type="number" name="input-age">
             <label for="city"> Select a City: </label>
-            <select name="city" id="city">
+            <select name="input-location" id="city">
                 <option value="select">Select a City</option>
                 <!-- dynamically generated drop down -->
             </select>
