@@ -8,26 +8,26 @@ updatePersonForm.addEventListener("submit", function (e) {
     e.preventDefault();
 
     // Get form fields we need to get data from
-    let inputAge = document.getElementById("input-age-update");
-    let inputLocation = document.getElementById("input-location_ID-update");
+    let inputID = document.getElementById("person");
+    let inputAge = document.getElementById("input-age");
+    let inputCity = document.getElementById("city");
 
     // Get the values from the form fields
-    let ageValue = inputAge.value;
-    let locationValue = inputLocation.value;
+    let inputIDValue = inputID.value;
+    let inputAgeValue = inputAge.value;
+    let inputCityValue = inputCity.value;
     
-    // currently the database table for bsg_people does not allow updating values to NULL
-    // so we must abort if being bassed NULL for homeworld
-
-    if (isNaN(locationValue)) 
+    // database table for People does not allow ID + age updating values to be NULL
+    if (isNaN(inputIDValue) || isNaN(inputAgeValue))
     {
         return;
     }
 
-
     // Put our data we want to send in a javascript object
     let data = {
-        age: ageValue,
-        location: locationValue,
+        person_ID: inputIDValue,
+        age: inputAgeValue,
+        location_ID: inputCityValue,
     }
     
     // Setup our AJAX request
@@ -40,7 +40,7 @@ updatePersonForm.addEventListener("submit", function (e) {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
 
             // Add the new data to the table
-            updateRow(xhttp.response, ageValue);
+            updateRow(xhttp.response, inputIDValue);
 
         }
         else if (xhttp.readyState == 4 && xhttp.status != 200) {
@@ -54,7 +54,7 @@ updatePersonForm.addEventListener("submit", function (e) {
 })
 
 
-function updateRow(data, personID){
+function updateRow(data, person_ID){
     let parsedData = JSON.parse(data);
     
     let table = document.getElementById("people-table");
@@ -62,15 +62,12 @@ function updateRow(data, personID){
     for (let i = 0, row; row = table.rows[i]; i++) {
        //iterate through rows
        //rows would be accessed using the "row" variable assigned in the for loop
-       if (table.rows[i].getAttribute("data-value") == personID) {
+       if (table.rows[i].getAttribute("data-value") == person_ID) {
 
             // Get the location of the row where we found the matching person ID
             let updateRowIndex = table.getElementsByTagName("tr")[i];
 
-            // Get td of homeworld value
             let td = updateRowIndex.getElementsByTagName("td")[3];
-
-            // Reassign homeworld to our value we updated to
             td.innerHTML = parsedData[0].name; 
        }
     }
