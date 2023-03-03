@@ -49,24 +49,48 @@ app.post('/addLocation', (req, res) => {
 });
 
 // Update existing location population
-app.post('updateLocation', (req, res) => {
-    let data = req.body;
+// app.post('updateLocation', (req, res) => {
+//     let data = req.body;
 
-    query1 = `SELECT city_name, state_name FROM Locations`;
-    db.pool.query(query1, function(error, rows, fields) {
-        if(error) {
+//     query1 = `SELECT city_name, state_name FROM Locations`;
+//     db.pool.query(query1, function(error, rows, fields) {
+//         if(error) {
+//             console.log(error);
+//             res.sendStatus(400);
+//         } else {
+//             query2 = `UPDATE Locations SET '${data['input-total_population']}'`;
+//             db.pool.query(query2, function(error, rows, fields) {
+//                 if(error) {
+//                     console.log(error);
+//                     res.sendStatus(400);
+//                 } else {
+//                     res.redirect('/locations')
+//                 }
+//             })
+//         }
+//     })
+// });
+
+app.put('/put-person-ajax', (req, res, next) => {
+    let data = req.body;
+    let age = parseInt(data.age);
+    let location = parseInt(data.location);
+    let queryUpdatePerson = `UPDATE People SET location = ? WHERE People.id = ?`;
+    let selectLocation = `SELECT * FROM People WHERE id = ?`;
+
+    db.pool.query(queryUpdatePerson, [age, location], (error, rows, fields) => {
+        if(error){
             console.log(error);
             res.sendStatus(400);
         } else {
-            query2 = `UPDATE Locations SET '${data['input-total_population']}'`;
-            db.pool.query(query2, function(error, rows, fields) {
-                if(error) {
+            db.pool.query(selectLocation, [location], (error, rows, fields) => {
+                if(error){
                     console.log(error);
                     res.sendStatus(400);
                 } else {
-                    res.redirect('/locations')
+                    res.send(rows);
                 }
-            })
+            });
         }
     })
 });

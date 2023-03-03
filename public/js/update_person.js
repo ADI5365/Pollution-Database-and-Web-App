@@ -8,17 +8,17 @@ updatePersonForm.addEventListener("submit", function (e) {
     e.preventDefault();
 
     // Get form fields we need to get data from
-    let inputFullName = document.getElementById("mySelect");
-    let inputHomeworld = document.getElementById("input-homeworld-update");
+    let inputAge = document.getElementById("input-age-update");
+    let inputLocation = document.getElementById("input-location_ID-update");
 
     // Get the values from the form fields
-    let fullNameValue = inputFullName.value;
-    let homeworldValue = inputHomeworld.value;
+    let ageValue = inputAge.value;
+    let locationValue = inputLocation.value;
     
     // currently the database table for bsg_people does not allow updating values to NULL
     // so we must abort if being bassed NULL for homeworld
 
-    if (isNaN(homeworldValue)) 
+    if (isNaN(locationValue)) 
     {
         return;
     }
@@ -26,8 +26,8 @@ updatePersonForm.addEventListener("submit", function (e) {
 
     // Put our data we want to send in a javascript object
     let data = {
-        fullname: fullNameValue,
-        homeworld: homeworldValue,
+        age: ageValue,
+        location: locationValue,
     }
     
     // Setup our AJAX request
@@ -40,7 +40,7 @@ updatePersonForm.addEventListener("submit", function (e) {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
 
             // Add the new data to the table
-            updateRow(xhttp.response, fullNameValue);
+            updateRow(xhttp.response, ageValue);
 
         }
         else if (xhttp.readyState == 4 && xhttp.status != 200) {
