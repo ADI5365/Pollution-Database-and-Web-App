@@ -8,15 +8,15 @@ updatePersonForm.addEventListener("submit", function (e) {
     e.preventDefault();
 
     // Get form fields we need to get data from
-    let inputID = document.getElementById("person");
+    let inputID = document.getElementById("input-person");
     let inputAge = document.getElementById("input-age");
-    let inputCity = document.getElementById("city");
+    let inputCity = document.getElementById("input-city");
 
     // Get the values from the form fields
     let inputIDValue = inputID.value;
     let inputAgeValue = inputAge.value;
     let inputCityValue = inputCity.value;
-    
+
     // database table for People does not allow ID + age updating values to be NULL
     if (isNaN(inputIDValue) || isNaN(inputAgeValue))
     {
@@ -29,6 +29,7 @@ updatePersonForm.addEventListener("submit", function (e) {
         age: inputAgeValue,
         location_ID: inputCityValue,
     }
+
     
     // Setup our AJAX request
     var xhttp = new XMLHttpRequest();
@@ -50,6 +51,7 @@ updatePersonForm.addEventListener("submit", function (e) {
 
     // Send the request and wait for the response
     xhttp.send(JSON.stringify(data));
+    console.log(data)
 
 })
 
@@ -67,8 +69,8 @@ function updateRow(data, person_ID){
             // Get the location of the row where we found the matching person ID
             let updateRowIndex = table.getElementsByTagName("tr")[i];
 
-            let td = updateRowIndex.getElementsByTagName("td")[3];
-            td.innerHTML = parsedData[0].name; 
+            let td = updateRowIndex.getElementsByTagName("td")[1];
+            td.innerHTML = parsedData[0].name
        }
     }
 }
