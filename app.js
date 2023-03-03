@@ -125,27 +125,36 @@ app.post('/addPerson', (req, res) => {
 });
 
 // Update existing person age
-app.post('/updatePerson', (req, res) => {
+app.put('/put-person-ajax', function(req,res,next){
     let data = req.body;
+  
+    let person_ID = parseInt(data.person_ID);
+    let age = parseInt(data.age);
+  
+    let queryUpdatePeople = `UPDATE People SET age = ? WHERE person_ID = ? `;
+    let selectCity = `SELECT * FROM Locations WHERE location_ID = ?`
 
-    query1 = `SELECT person_ID FROM People`;
-    db.pool.query(query1, function(error, rows, fields) {
-        if(error) {
-            console.log(error);
-            res.sendStatus(400);
-        } else {
-            query2 = `UPDATE People SET '${data['input-age']}'`;
-            db.pool.query(query2, function(error, rows, fields) {
-                if(error) {
-                    console.log(error);
-                    res.sendStatus(400);
-                } else {
-                    res.redirect('/people')
-                }
-            })
-        }
-    })
-});
+          db.pool.query(queryUpdatePeople, [age, person_ID], function(error, rows, fields){
+              if (error) {
+              // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+              console.log(error);
+              res.sendStatus(400);
+              }
+              // If there was no error, we run our second query and return that data so we can use it to update the people's
+              // table on the front-end
+              else
+              {
+                  db.pool.query(selectCity, [person_ID], function(error, rows, fields) {
+  
+                      if (error) {
+                          console.log(error);
+                          res.sendStatus(400);
+                      } else {
+                          res.send(rows);
+                      }
+                  })
+              }
+  })});
 
 // Delete a person
 app.delete('/delete-person-ajax/', function(req,res,next){
