@@ -1,4 +1,3 @@
-
 // Get an instance of mysql we can use in the app
 var mysql = require('mysql')
 
@@ -6,9 +5,9 @@ var mysql = require('mysql')
 var pool = mysql.createPool({
     connectionLimit : 10,
     host            : 'classmysql.engr.oregonstate.edu',
-    user            : 'cs340_irwinan',
-    password        : '7596',
-    database        : 'cs340_irwinan'
+    user            : 'cs340_millesa8',
+    password        : '5419',
+    database        : 'cs340_millesa8'
 })
 
 // Export it for use in our applicaiton
