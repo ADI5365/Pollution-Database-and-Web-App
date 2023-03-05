@@ -42,10 +42,9 @@ addRowToTable = (data) => {
 
     // Find drop down menu, create a new option, fill data in the option (full name, id),
     // then append option to drop down menu so newly created rows via ajax will be found in it without needing a refresh
-    //let selectMenu = document.getElementById("mySelect");
-    //let option = document.createElement("option");
-    //option.text = newRow.fname + ' ' +  newRow.lname;
-    //option.value = newRow.id;
-    //selectMenu.add(option);
-    // End of new step 8 code.
+    let selectMenu = document.getElementById("input-person_ID");
+    let option = document.createElement("option");
+    option.text = newRow.person_ID;
+    option.value = newRow.person_ID;
+    selectMenu.add(option);
 }

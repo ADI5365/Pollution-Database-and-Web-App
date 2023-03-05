@@ -1,30 +1,27 @@
-let updatePersonForm = document.getElementById('update-person-form-ajax');
+let updatePersonForm = document.getElementById('update-location-form-ajax');
 
-// Modifying a selected person in People
+// Modifying a selected location in Locations
 updatePersonForm.addEventListener("submit", function (e) {
     e.preventDefault();
 
     // Get form fields we need to get data from
-    let inputID = document.getElementById("input-person");
-    let inputAge = document.getElementById("input-age");
-    let inputCity = document.getElementById("input-city");
+    let inputID = document.getElementById("input-location_ID");
+    let inputPopulation = document.getElementById("input-population");
 
     // Get the values from the form fields
     let inputIDValue = inputID.value;
-    let inputAgeValue = inputAge.value;
-    let inputCityValue = inputCity.value;
+    let inputPopulationValue = inputPopulation.value;
 
     // database table for People does not allow ID + age updating values to be NULL
-    if (isNaN(inputIDValue) || isNaN(inputAgeValue))
+    if (isNaN(inputIDValue) || isNaN(inputPopulationValue))
     {
         return;
     }
 
     // Put our data we want to send in a javascript object
     let data = {
-        person_ID: inputIDValue,
-        age: inputAgeValue,
-        location_ID: inputCityValue
+        location_ID: inputIDValue,
+        age: inputAgeValue
     }
 
     
@@ -53,14 +50,14 @@ updatePersonForm.addEventListener("submit", function (e) {
 })
 
 
-function updateRow(data, person_ID){
+function updateRow(data, location_ID){
     let parsedData = JSON.parse(data);
-    let table = document.getElementById("people-table");
+    let table = document.getElementById("location-table");
 
     for (let i = 0, row; row = table.rows[i]; i++) {
        //iterate through rows
        //rows would be accessed using the "row" variable assigned in the for loop
-       if (table.rows[i].getAttribute("data-value") == person_ID) {
+       if (table.rows[i].getAttribute("data-value") == location_ID) {
 
             // Get the location of the row where we found the matching person ID
             let updateRowIndex = table.getElementsByTagName("tr")[i];

@@ -74,7 +74,7 @@
         <legend><strong>Update Person</strong></legend>
         <fieldset class="fields">
             <label for="input-person_ID"> Select a Person: </label>
-            <select name="input-person_ID" id="input-person">
+            <select name="input-person_ID" id="input-person_ID">
                 <option value="">Select the Person's ID</option>
                 {{#each data}}
                 <option value="{{this.person_ID}}">{{this.person_ID}}</option>
@@ -82,7 +82,7 @@
             </select>
             <label> Age </label> <input type="number" name="input-age" id = "input-age">
             <label for="input-location_ID"> Select a City: </label>
-            <select name="input-location_ID" id="input-city">
+            <select name="input-location_ID" id="input-location_ID">
                 <option value="select">Select a City</option>
                 {{#each locations}}
                 <option value="{{this.location_ID}}">{{this.city_name}}</option>
