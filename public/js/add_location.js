@@ -1,7 +1,7 @@
 // Get the objects we need to modify
-let addLocationForm = document.getElementById('addLocation');
+let addLocationForm = document.getElementById('add-location-ajax');
 
-// Modify the objects we need
+// Modify the objects we needUntitled document
 addLocationForm.addEventListener("submit", function (e) {
     
     // Prevent the form from submitting
@@ -82,6 +82,7 @@ addRowToTable = (data) => {
     row.appendChild(cityCell);
     row.appendChild(stateCell);
     row.appendChild(populationCell);
+    row.appendChild(deleteCell);
 
     row.setAttribute('data-value', newRow.location_ID);
     
