@@ -3,8 +3,7 @@
 */
 var express = require('express');
 var app = express();
-// PORT = 62110;
-PORT = 7539;
+PORT = 62110;
 var db = require('./database/db-connector');
 
 app.use(express.json());
@@ -26,6 +25,8 @@ app.get('/', (req, res) => {
     res.render('index');
 });
 
+
+
 // CRUD OPERATIONS FOR LOCATIONS
 
 // Display table on Locations
@@ -38,28 +39,33 @@ app.get('/locations', (req, res) => {
 });
 
 // Add new location
-app.post('/add-location-ajax', (req, res) => {
+app.post('/addLocation', (req, res) => {
     let data = req.body;
-    let population = parseInt(data.total_population);
-    if(isNaN(population)) {
-        population = 'NULL';
-    }
 
-    query1 = `INSERT INTO Locations (city_name, state_name, total_population) VALUES ('${data.city_name}', '${data.state_name}', '${population}')`;
+    query1 = `INSERT INTO Locations (city_name, state_name, total_population) VALUES ('${data['input-city']}', '${data['input-state']}', '${data['input-population']}')`;
     db.pool.query(query1, function(error, rows, fields) {
         if(error) {
             console.log(error);
             res.sendStatus(400);
         } else {
-            query2 = `SELECT * FROM Locations;`;
-            db.pool.query(query2, function(error, rows, fields){
-                if (error) {
-                    console.log(error);
-                    res.sendStatus(400);
-                } else {
-                    res.send(rows);
-                }
-            })
+            res.redirect('/locations')
+        }
+    })
+});
+
+// Update existing location population
+app.put('/put-location-ajax', (req, res) => {
+    let data = req.body;
+    let population = parseInt(data.total_population);
+    let city = parseInt(data.city_name);
+    let queryUpdatePopulation = `UPDATE Locations SET population = ? WHERE location_ID = ?`;
+
+    db.pool.query(queryUpdatePopulation, [population, city], function(error, rows, fields) {
+        if(error) {
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            res.send(rows);
         }
     })
 });
@@ -88,6 +94,7 @@ app.delete('/delete-location-ajax/', function(req,res,next){
         }
     })
 });    
+
 
 
 // CRUD OPERATIONS FOR PEOPLE
@@ -146,9 +153,9 @@ app.put('/put-person-ajax', function(req,res,next){
 
     db.pool.query(queryUpdatePeople, [person_ID, age], function(error, rows, fields){
         if (error) {
-        // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-        console.log(error);
-        res.sendStatus(400);
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error);
+            res.sendStatus(400);
         }
         // If there was no error, we run our second query and return that data so we can use it to update the people's
         // table on the front-end
@@ -203,26 +210,34 @@ app.delete('/delete-person-ajax/', function(req,res,next){
     })
 });
 
+
+
 // CRUD OPERATIONS FOR HEALTH PROBLEMS
 
 // Render health-problems page
 app.get('/health-problems', (req, res) => {
-    res.render('health-problems');
+    res.render('healthProblems');
 });
+
+
 
 // CRUD OPERATIONS FOR INDIVIDUAL HEALTH ISSUES
 
 // Render individual-health-issues page
 app.get('/individual-health-issues', (req, res) => {
-    res.render('individual-health-issues');
+    res.render('individualHealthIssues');
 });
+
+
 
 // CRUD OPERATIONS FOR CITY HEALTH ISSUES
 
 // Render city-health-issues page
 app.get('/city-health-issues', (req, res) => {
-    res.render('city-health-issues');
+    res.render('cityHealthIssues');
 });
+
+
 
 // CRUD OPERATIONS FOR DATES WITH POLLUTION DATA
 
@@ -235,11 +250,66 @@ app.get('/pollution-by-day', (req, res) => {
     });
 });
 
+// Add a new date to enter pollution data into
+app.post('/addPollutionDay', (req, res) => {
+    let data = req.body;
+
+    query1 = `INSERT INTO Pollution_Levels_By_Day (date_recorded) VALUES ('${data['input-date']}')`;
+    db.pool.query(query1, function(error, rows, fields) {
+        if(error) {
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            res.redirect('/pollutionLevelsByDay');
+        }
+    })
+});
+
+// Delete a date
+app.delete('/delete-pollution-date-ajax/', function(req,res,next){
+    let data = req.body;
+    let pollution_ID = parseInt(data.id);
+    let deleteDaily_Location_Pollution_Days = `DELETE FROM Daily_Location_Pollution WHERE pollution_ID = ?`;
+    let deletePollutionDate = `DELETE FROM Pollution_Levels_By_Day WHERE pollution_ID = ?`;
+
+    db.pool.query(deleteDaily_Location_Pollution_Days, [pollution_ID], function(error, rows, fields){
+        if (error) {
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            db.pool.query(deletePollutionDate, [pollution_ID], function(error, rows, fields) {
+                if (error) {
+                    console.log(error);
+                    res.sendStatus(400);
+                } else {
+                    res.sendStatus(204);
+                }
+            })
+        }
+    })
+});
+
+
+
 // CRUD OPERATIONS FOR DAILY POLLUTION BY LOCATION
 
-// Render daily-location-pollution page
+// Display Daily Location Pollution page
 app.get('/daily-location-pollution', (req, res) => {
-    res.render('daily-location-pollution');
+    let query1 = `SELECT * FROM Daily_Location_Pollution`;
+    let query2 = `SELECT * FROM Pollution_Levels_By_Day`;
+    let query3 = `SELECT * FROM Locations`;
+
+    db.pool.query(query1, function(error, rows, fields) {
+        let daily_poll = rows;
+        db.pool.query(query2, function(error, rows, fields) {
+            let dates = rows;
+            db.pool.query(query3, function(error, rows, fields) {
+                let locations = rows;
+                return res.render('dailyLocationPollution', {data: daily_poll, dates: dates, locations: locations});
+            })
+        })
+    })
 });
 
 /*

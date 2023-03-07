@@ -18,7 +18,7 @@
 <div id="browse">
     <h3>Browse Dates with Pollution Data</h3>
 
-    <table>
+    <table id="pollution-date-table">
         <thead>
 
             <tr>
@@ -44,7 +44,7 @@
 
 <!-- Add new date on which data was collected -->
 <div id="insert">
-    <form id="add">
+    <form id="addPollutionDay" method="POST" action="/addPollutionDay">
         <legend><strong>Add Date where Pollution Levels were Recorded</strong></legend>
         <fieldset class="fields">
             <label> Date </label> <input type="date" name="input-date" id="input-date">

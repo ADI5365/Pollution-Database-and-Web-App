@@ -49,7 +49,7 @@
 
 {{!-- Add new location --}}
 <div id="insert">
-    <form id="add-location-ajax">
+    <form id="addLocation" method="POST" action="/addLocation">
         <legend><strong>Add Location</strong></legend>
         <fieldset class="fields">
             <label> City Name </label> <input type="text" name="input-city" id="input-city" required="required">
@@ -58,7 +58,6 @@
         </fieldset>
         <input class="btn" type="submit" id="addLocation" value="Add Location">
     </form>
-    <script src="./js/add_location.js"></script>
 </div>
 
 {{!-- Update location attributes --}}
@@ -73,7 +72,7 @@
                 <option value="{{this.location_ID}}">{{this.city_name}}</option>
                 {{/each}}
             </select>
-            <label> Total Population </label> <input type="number" name="input-population" id="input-population" required="required">
+            <label> Total Population </label> <input type="number" name="population-update" id="population-update" required="required">
         </fieldset>
         <input class="btn" type="submit" id="UpdateLocation" value="Update Location">
     </form>

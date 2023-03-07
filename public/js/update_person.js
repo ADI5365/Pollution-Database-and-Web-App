@@ -5,9 +5,9 @@ updatePersonForm.addEventListener("submit", function (e) {
     e.preventDefault();
 
     // Get form fields we need to get data from
-    let inputID = document.getElementById("input-person");
-    let inputAge = document.getElementById("input-age");
-    let inputCity = document.getElementById("input-city");
+    let inputID = document.getElementById("input-person_ID");
+    let inputAge = document.getElementById("age-update");
+    let inputCity = document.getElementById("location-update");
 
     // Get the values from the form fields
     let inputIDValue = inputID.value;

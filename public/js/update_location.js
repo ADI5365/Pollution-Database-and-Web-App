@@ -6,7 +6,7 @@ updatePersonForm.addEventListener("submit", function (e) {
 
     // Get form fields we need to get data from
     let inputID = document.getElementById("input-location_ID");
-    let inputPopulation = document.getElementById("input-population");
+    let inputPopulation = document.getElementById("population-update");
 
     // Get the values from the form fields
     let inputIDValue = inputID.value;
@@ -21,13 +21,13 @@ updatePersonForm.addEventListener("submit", function (e) {
     // Put our data we want to send in a javascript object
     let data = {
         location_ID: inputIDValue,
-        age: inputAgeValue
+        population: inputPopulationValue
     }
 
     
     // Setup our AJAX request
     var xhttp = new XMLHttpRequest();
-    xhttp.open("PUT", "/put-person-ajax", true);
+    xhttp.open("PUT", "/put-location-ajax", true);
     xhttp.setRequestHeader("Content-type", "application/json");
 
     // Tell our AJAX request how to resolve

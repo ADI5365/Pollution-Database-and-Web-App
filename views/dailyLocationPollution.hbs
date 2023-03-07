@@ -14,44 +14,16 @@
     <a href="/daily-location-pollution">Daily Pollution in Each Location</a>
 </nav>
 
-{{!-- Locations Display Table --}}
-<div id="browse">
+<div>
     <h3>Browse Pollution Data for All Cities and Dates</h3>
 
-    <table>
-        <thead>
-
-            <tr>
-                {{#each data.[0]}}
-                <th>
-                    {{@key}}
-                </th>
-                {{/each}}
-            </tr>
-        </thead>
-
-        <tbody>
-
-            {{#each data}}
-            <tr>
-                <td>{{this.log_date}}</td>
-                <td>{{this.location_ID}}</td>
-                <td>{{this.pollution_ID}}</td>
-                <td>{{this.particulate_level}}</td>
-                <td>{{this.NO2_level}}</td>
-                <td>{{this.PAH_level}}</td>
-            </tr>
-            {{/each}}
-        </tbody>
-    </table>
+    <ol>
+        <p>Use the following forms to:</p>
+        <li>View pollution levels by city or by date</li>
+        <li>Add pollution data</li>
+        <li>Update pollutant levels for all cities on a specific date</li>
+    </ol>
 </div>
-
-<ol>
-    <p>Use the following forms to:</p>
-    <li>View pollution levels by city or by date</li>
-    <li>Add pollution data</li>
-    <li>Update pollutant levels for all cities on a specific date</li>
-</ol>
 
 <!-- View historical pollution levels by location -->
 <div id="browse">
@@ -59,9 +31,11 @@
         <legend><strong>Browse Pollution Levels by City</strong></legend>
         <fieldset class="fields">
             <label for="city"> Select a City: </label>
-            <select name="city" id="city">
-                <option value="select">Select</option>
-                <!-- dynamically generated drop down -->
+            <select name="input-city" id="input-city" required="required">
+                <option value="">Select a City</option>
+                {{#each locations}}
+                <option value="{{this.location_ID}}">{{this.city_name}}</option>
+                {{/each}}
             </select>
         </fieldset>
         <input class="btn" type="submit" id="browsePollutionByCity" value="View Levels by City">
@@ -74,9 +48,11 @@
         <legend><strong>Browse Pollution Levels by Date</strong></legend>
         <fieldset class="fields">
             <label for="date"> Select a Date: </label>
-            <select name="date" id="date">
-                <option value="select">Select</option>
-                <!-- dynamically generated drop down -->
+            <select name="input-date" id="input-date" required="required">
+                <option value="">Select a Date</option>
+                {{#each dates}}
+                <option value="{{this.pollution_ID}}">{{this.date_recorded}}</option>
+                {{/each}}
             </select>
         </fieldset>
         <input class="btn" type="submit" id="browsePollutionByDate" value="View Levels by Date">
@@ -85,22 +61,26 @@
 
 <!-- Add pollution levels for specific city on specific date -->
 <div id="insert">
-    <form id="addPollutionLevel">
+    <form id="addPollutionLevels" method="POST" action="/addPollutionLevels">
         <legend><strong>Add Pollution Levels</strong></legend>
         <fieldset class="fields">
             <label for="city"> Select a City: </label>
-            <select name="city" id="city">
+            <select name="input-location_ID" id="input-location_ID" required="required">
                 <option value="select">Select a City</option>
-                <!-- dynamically generated drop down -->
+                {{#each locations}}
+                <option value="{{this.location_ID}}">{{this.city_name}}</option>
+                {{/each}}
             </select>
             <label for="date"> Select a Date: </label>
-            <select name="date" id="date">
+            <select name="input-date" id="input-date" required="required">
                 <option value="select">Select</option>
-                <!-- dynamically generated drop down -->
+                {{#each dates}}
+                <option value="{{this.pollution_ID}}">{{this.date_recorded}}</option>
+                {{/each}}
             </select>
-            <label> Particulate Level </label> <input type="number" name="particulate level">
-            <label> NO2 Level </label> <input type="number" name="NO2 level">
-            <label> PAH Level </label> <input type="number" name="PAH level">
+            <label> Particulate Level </label> <input type="number" name="input-particulate" id="input-particulate">
+            <label> NO2 Level </label> <input type="number" name="input-NO2" id="input-NO2">
+            <label> PAH Level </label> <input type="number" name="input-PAH" if="input-PAH">
         </fieldset>
         <input class="btn" type="submit" id="addPollutionLevel" value="Add Pollution Levels">
     </form>
@@ -111,19 +91,23 @@
     <form id="updatePollutionLevel">
         <legend><strong>Update Pollution Levels</strong></legend>
         <fieldset class="fields">
-            <label for="city"> Select a City: </label>
-            <select name="city" id="city">
+            <label for="city-update"> Select a City: </label>
+            <select name="city-update" id="city-update">
                 <option value="select">Select a City</option>
-                <!-- dynamically generated drop down -->
+                {{#each locations}}
+                <option value="{{this.location_ID}}">{{this.city_name}}</option>
+                {{/each}}
             </select>
-            <label for="date"> Select a Date: </label>
-            <select name="date" id="date">
+            <label for="date-update"> Select a Date: </label>
+            <select name="date-update" id="date-update">
                 <option value="select">Select</option>
-                <!-- dynamically generated drop down -->
+                {{#each dates}}
+                <option value="{{this.pollution_ID}}">{{this.date_recorded}}</option>
+                {{/each}}
             </select>
-            <label> Particulate Level </label> <input type="number" name="particulate level">
-            <label> NO2 Level </label> <input type="number" name="NO2 level">
-            <label> PAH Level </label> <input type="number" name="PAH level">
+            <label> Particulate Level </label> <input type="number" name="particulate_update" id="particulate_update">
+            <label> NO2 Level </label> <input type="number" name="NO2_update" id="NO2_update">
+            <label> PAH Level </label> <input type="number" name="PAH_update" id="PAH_update">
         </fieldset>
         <input class="btn" type="submit" id="UpdatePollutionLevel" value="Update Pollution Levels">
     </form>
