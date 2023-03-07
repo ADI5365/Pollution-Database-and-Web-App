@@ -44,6 +44,7 @@
             {{/each}}
         </tbody>
     </table>
+    <script src="./js/delete_location.js"></script>
 </div>
 
 {{!-- Add new location --}}
@@ -51,9 +52,9 @@
     <form id="add-location-ajax">
         <legend><strong>Add Location</strong></legend>
         <fieldset class="fields">
-            <label> City Name </label> <input type="text" name="input-city" id="input-city">
-            <label> State Name </label> <input type="text" name="input-state" id="input-state">
-            <label> Population </label> <input type="number" name="input-population" id="input-population">
+            <label> City Name </label> <input type="text" name="input-city" id="input-city" required="required">
+            <label> State Name </label> <input type="text" name="input-state" id="input-state" required="required">
+            <label> Population </label> <input type="number" name="input-population" id="input-population" required="required">
         </fieldset>
         <input class="btn" type="submit" id="addLocation" value="Add Location">
     </form>
@@ -66,13 +67,13 @@
         <legend><strong>Update Location</strong></legend>
         <fieldset class="fields">
             <label for="input-location_ID"> Select a City: </label>
-            <select name="input-location_ID" id="input-location_ID">
+            <select name="input-location_ID" id="input-location_ID" required="required">
                 <option value="select">Select a City</option>
                 {{#each locations}}
                 <option value="{{this.location_ID}}">{{this.city_name}}</option>
                 {{/each}}
             </select>
-            <label> Total Population </label> <input type="number" name="input-population" id="input-population">
+            <label> Total Population </label> <input type="number" name="input-population" id="input-population" required="required">
         </fieldset>
         <input class="btn" type="submit" id="UpdateLocation" value="Update Location">
     </form>
