@@ -1,7 +1,7 @@
 addRowToTable = (data) => {
 
     // Get a reference to the current table on the page and clear it out.
-    let currentTable = document.getElementById("people-table");
+    let currentTable = document.getElementById("location-pollution-table");
 
     // Get the location where we should insert the new row (end of table)
     let newRowIndex = currentTable.rows.length;
@@ -13,38 +13,47 @@ addRowToTable = (data) => {
     // Create a row
     let row = document.createElement("TR");
     let idCell = document.createElement("TD");
-    let ageCell = document.createElement("TD");
     let locationCell = document.createElement("TD");
+    let dateCell = document.createElement("TD");
+    let particulateCell = document.createElement("TD");
+    let NO2Cell = document.createElement("TD");
+    let PAHCell = document.createElement("TD");
     let deleteCell = document.createElement("TD");
 
     // Fill the cells with correct data
-    idCell.innerText = newRow.person_ID;
-    ageCell.innerText = newRow.age;
-    locationCell.innerText = newRow.location_ID
+    idCell.innerText = newRow.log_date;
+    locationCell.innerText = newRow.location_ID;
+    dateCell.innerText = newRow.pollution_ID;
+    particulateCell.innerText = newRow.particulate_level;
+    NO2Cell.innerText = newRow.NO2_level;
+    PAHCell.innerText = newRow.PAH_level;
 
     deleteCell = document.createElement("button");
     deleteCell.innerHTML = "Delete";
     deleteCell.onclick = function(){
-        deletePerson(newRow.person_ID);
+        deleteLocationPollution(newRow.log_date);
     };
 
     // Add the cells to the row 
     row.appendChild(idCell);
-    row.appendChild(ageCell);
     row.appendChild(locationCell);
+    row.appendChild(dateCell);
+    row.appendChild(particulateCell);
+    row.appendChild(NO2Cell);
+    row.appendChild(PAHCell);
     row.appendChild(deleteCell);
     
     // Add a custom row attribute so the deleteRow function can find a newly added row
-    row.setAttribute('data-value', newRow.person_ID);
+    row.setAttribute('data-value', newRow.log_date);
 
     // Add the row to the table
     currentTable.appendChild(row);
 
     // Find drop down menu, create a new option, fill data in the option (full name, id),
     // then append option to drop down menu so newly created rows via ajax will be found in it without needing a refresh
-    let selectMenu = document.getElementById("input-person_ID");
+    let selectMenu = document.getElementById("input-log_date");
     let option = document.createElement("option");
-    option.text = newRow.person_ID;
-    option.value = newRow.person_ID;
+    option.text = newRow.log_date;
+    option.value = newRow.log_date;
     selectMenu.add(option);
 }

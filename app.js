@@ -58,7 +58,7 @@ app.put('/put-location-ajax', (req, res) => {
     let data = req.body;
     let population = parseInt(data.total_population);
     let city = parseInt(data.city_name);
-    let queryUpdatePopulation = `UPDATE Locations SET population = ? WHERE location_ID = ?`;
+    let queryUpdatePopulation = `UPDATE Locations SET total_population = ? WHERE Locations.location_ID = ?`;
 
     db.pool.query(queryUpdatePopulation, [population, city], function(error, rows, fields) {
         if(error) {
@@ -141,17 +141,17 @@ app.post('/addPerson', (req, res) => {
 });
 
 // Update existing person age and location
-app.put('/put-person-ajax', function(req,res,next){
+app.put('/put-person-ajax', function(req, res, next){
     let data = req.body;
   
     let person_ID = parseInt(data.person_ID);
     let age = parseInt(data.age);
     let location_ID = parseInt(data.location_ID)
   
-    let queryUpdatePeople = `UPDATE People SET age = ? WHERE People.person_ID = ? `;
+    let queryUpdatePeople = `UPDATE People SET age = ?, location_ID = ? WHERE People.person_ID = ? `;
     let selectCity = `SELECT * FROM Locations WHERE location_ID = ?`
 
-    db.pool.query(queryUpdatePeople, [person_ID, age], function(error, rows, fields){
+    db.pool.query(queryUpdatePeople, [age, location_ID, person_ID], function(error, rows, fields){
         if (error) {
             // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
             console.log(error);
@@ -215,7 +215,7 @@ app.delete('/delete-person-ajax/', function(req,res,next){
 // CRUD OPERATIONS FOR HEALTH PROBLEMS
 
 // Render health-problems page
-app.get('/health-problems', (req, res) => {
+app.get('/healthProblems', (req, res) => {
     res.render('healthProblems');
 });
 
@@ -224,7 +224,7 @@ app.get('/health-problems', (req, res) => {
 // CRUD OPERATIONS FOR INDIVIDUAL HEALTH ISSUES
 
 // Render individual-health-issues page
-app.get('/individual-health-issues', (req, res) => {
+app.get('/individualHealthIssues', (req, res) => {
     res.render('individualHealthIssues');
 });
 
@@ -233,7 +233,7 @@ app.get('/individual-health-issues', (req, res) => {
 // CRUD OPERATIONS FOR CITY HEALTH ISSUES
 
 // Render city-health-issues page
-app.get('/city-health-issues', (req, res) => {
+app.get('/cityHealthIssues', (req, res) => {
     res.render('cityHealthIssues');
 });
 
@@ -242,7 +242,7 @@ app.get('/city-health-issues', (req, res) => {
 // CRUD OPERATIONS FOR DATES WITH POLLUTION DATA
 
 // Display table on Dates with Pollution Data
-app.get('/pollution-by-day', (req, res) => {
+app.get('/pollutionLevelsByDay', (req, res) => {
     let query1 = `SELECT * from Pollution_Levels_By_Day;`;
     db.pool.query(query1, function(error, rows, fields) {
         let pollution_date = rows;
@@ -251,7 +251,7 @@ app.get('/pollution-by-day', (req, res) => {
 });
 
 // Add a new date to enter pollution data into
-app.post('/addPollutionDay', (req, res) => {
+app.post('/addPollutionDate', (req, res) => {
     let data = req.body;
 
     query1 = `INSERT INTO Pollution_Levels_By_Day (date_recorded) VALUES ('${data['input-date']}')`;
@@ -295,7 +295,7 @@ app.delete('/delete-pollution-date-ajax/', function(req,res,next){
 // CRUD OPERATIONS FOR DAILY POLLUTION BY LOCATION
 
 // Display Daily Location Pollution page
-app.get('/daily-location-pollution', (req, res) => {
+app.get('/dailyLocationPollution', (req, res) => {
     let query1 = `SELECT * FROM Daily_Location_Pollution`;
     let query2 = `SELECT * FROM Pollution_Levels_By_Day`;
     let query3 = `SELECT * FROM Locations`;
@@ -311,6 +311,7 @@ app.get('/daily-location-pollution', (req, res) => {
         })
     })
 });
+
 
 /*
     LISTENER
