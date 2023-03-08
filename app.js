@@ -109,7 +109,6 @@ app.get('/people', (req, res) => {
         db.pool.query(query2, (error, rows, fields) => {
             let locations = rows;
             
-            
             // Displaying city name instead of ID in People table
             let locationmap = {}
             locations.map(location => {
@@ -306,9 +305,61 @@ app.get('/dailyLocationPollution', (req, res) => {
             let dates = rows;
             db.pool.query(query3, function(error, rows, fields) {
                 let locations = rows;
+
+                // Display city name and date recorded instead of IDs
+                let locationmap = {}
+                locations.map(location => {
+                    let location_ID = parseInt(location.location_ID, 10);
+                    locationmap[location_ID] = location['city_name'];
+                });
+                daily_poll = daily_poll.map(dayLocPull => {
+                    return Object.assign(dayLocPull, {location_ID: locationmap[dayLocPull.location_ID]});
+                });
+
+                let datemap = {}
+                dates.map(date => {
+                    let pollution_ID = parseInt(date.pollution_ID, 10);
+                    datemap[pollution_ID] = date['date_recorded'];
+                });
+                daily_poll = daily_poll.map(dayLocPull => {
+                    return Object.assign(dayLocPull, {pollution_ID: datemap[dayLocPull.pollution_ID]});
+                });
+
                 return res.render('dailyLocationPollution', {data: daily_poll, dates: dates, locations: locations});
             })
         })
+    })
+});
+
+// Add new pollution readings for specific city on specific date
+app.post('/addPollutionLevels', (req, res) => {
+    let data = req.body;
+
+    let particulate_level = parseInt(data.particulate_level);
+    let NO2_level = parseInt(data.NO2_level);
+    let PAH_level = parseInt(data.PAH_level);
+
+    if (isNaN(particulate_level))
+    {
+        particulate_level = 'NULL'
+    }
+    if (isNaN(NO2_level))
+    {
+        NO2_level = 'NULL'
+    }
+    if (isNaN(PAH_level))
+    {
+        PAH_level = 'NULL'
+    }
+
+    query1 = `INSERT INTO Daily_Location_Pollution (location_ID, pollution_ID, particulate_level, NO2_level, PAH_level) VALUES ('${data['input-location_ID']}', '${data['input-date']}', '${particulate_level}', '${NO2_level}', '${PAH_level}')`;
+    db.pool.query(query1, function(error, rows, fields) {
+        if(error) {
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            res.redirect('/dailyLocationPollution')
+        }
     })
 });
 
