@@ -70,18 +70,24 @@
 
 <!-- Associate a new health problem with a specific person -->
 <div id="insert">
-    <form id="addIndividualHealthIssue">
+    <form id="addIndividualHealthIssue" method="POST" action="/addIndividualHealthIssue">
         <legend><strong>Associate Individuals with a Health Issue</strong></legend>
         <fieldset class="fields">
             <label for="person"> Select the Personal ID: </label>
-            <select name="person" id="person">
-                <option value="select">Select</option>
+            <select name="person-input" id="person-input" required="required">
+                <option value="">Select</option>
                 <!-- dynamically generated drop down -->
+                {{#each people}}
+                <option value="{{this.person_ID}}">{{this.person_ID}}</option>
+                {{/each}}
             </select>
-            <label for="health problem"> Select a Health Problem: </label>
-            <select name="health problem" id="health problem">
-                <option value="select">Select</option>
+            <label for="health-problem"> Select a Health Problem: </label>
+            <select name="health-problem-input" id="health-problem-input" required="required">
+                <option value="">Select</option>
                 <!-- dynamically generated drop down -->
+                {{#each problems}}
+                <option value="{{this.problem_ID}}">{{this.problem_name}}</option>
+                {{/each}}
             </select>
         </fieldset>
         <input class="btn" type="submit" id="addIndividualHealthIssue" value="Add Health Issue">

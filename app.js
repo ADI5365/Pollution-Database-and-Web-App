@@ -268,7 +268,7 @@ app.get('/individualHealthIssues', (req, res) => {
     })
 });
 
-//Display health issues associated with a specific person
+// Display health issues associated with a specific person
 app.get('/browseIndividualHealthIssue', function(req, res)
 {
     let query1 = `SELECT * FROM Individual_Health_Issues WHERE person_ID = "${req.query.indiv-input}%"`
@@ -284,6 +284,21 @@ app.get('/browseIndividualHealthIssue', function(req, res)
                 return res.render('individualHealthIssues', {data: individual_problems, people: people, problems: problems});
             })
         })
+    })
+});
+
+// Add new association between person and health problem
+app.post('/addIndividualHealthIssue', (req, res) => {
+    let data = req.body;
+
+    query1 = `INSERT INTO Individual_Health_Issues (person_ID, problem_ID) VALUES ('${data['person-input']}', '${data['health-problem-input']}')`;
+    db.pool.query(query1, function(error, rows, fields) {
+        if(error) {
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            res.redirect('/individualHealthIssues');
+        }
     })
 });
 
@@ -307,6 +322,21 @@ app.get('/cityHealthIssues', (req, res) => {
                 return res.render('cityHealthIssues', {data: city_problems, locations: locations, problems: problems});
             })
         })
+    })
+});
+
+// Add reported health issue to city's records
+app.post('/addCityHealthIssue', (req, res) => {
+    let data = req.body;
+
+    query1 = `INSERT INTO City_Health_Issues (location_ID, problem_ID) VALUES ('${data['city-input']}', '${data['health-problem-input']}')`;
+    db.pool.query(query1, function(error, rows, fields) {
+        if(error) {
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            res.redirect('/cityHealthIssues');
+        }
     })
 });
 
