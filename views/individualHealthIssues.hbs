@@ -26,6 +26,7 @@
                     {{@key}}
                 </th>
                 {{/each}}
+                <th>Delete</th>
             </tr>
         </thead>
 
@@ -36,6 +37,7 @@
                 <td>{{this.person_health_ID}}</td>
                 <td>{{this.person_ID}}</td>
                 <td>{{this.problem_ID}}</td>
+                <td><button onclick="deleteIndividualHeathIssue({{this.person_health_ID}})">Delete</button></td>
             </tr>
             {{/each}}
         </tbody>

@@ -27,6 +27,7 @@
                     {{@key}}
                 </th>
                 {{/each}}
+                <th>Delete</th>
             </tr>
         </thead>
 
@@ -37,6 +38,7 @@
                 <td>{{this.city_health_ID}}</td>
                 <td>{{this.location_ID}}</td>
                 <td>{{this.problem_ID}}</td>
+                <td><button onclick="deleteCityHeathIssue({{this.city_health_ID}})">Delete</button></td>
             </tr>
             {{/each}}
         </tbody>
@@ -53,12 +55,16 @@
 
 {{!-- See all health issues associated with a specific city --}}
 <div id="browse">
-    <form id="browseCityHealthIssue">
+    <form id="browseCityHealthIssue" method = "GET" action = "/browseCityHealthIssue">
         <legend><strong>Browse Health Issues by City</strong></legend>
         <fieldset class="fields">
-            <label for="city"> Select a City: </label>
-            <select name="city" id="city">
+            <label for="city-input"> Select a City: </label>
+            <select name="city-input" id="city-input">
+                <option value="0">Select</option>
                 <!-- dynamically generated drop down -->
+                {{#each locations}}
+                <option value="{{this.location_ID}}">{{this.city_name}}</option>
+                {{/each}}               
             </select>
         </fieldset>
         <input class="btn" type="submit" id="browseCityHealthIssue" value="View All">

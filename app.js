@@ -291,7 +291,7 @@ app.get('/individualHealthIssues', (req, res) => {
 app.get('/browseIndividualHealthIssue', (req, res) =>
 {
     let query1;
-    console.log(req.query['indiv-input'])
+    //console.log(req.query['indiv-input'])
     if (req.query['indiv-input'] === '0'){
         query1 = `SELECT * FROM Individual_Health_Issues;`;
     }
@@ -355,15 +355,15 @@ app.get('/cityHealthIssues', (req, res) => {
             db.pool.query(query3, function(error, rows, fields) {
                 let problems = rows;
                 
-                // Display health problem name instead of ID
-                let problemMap = {}
-                problems.map(problem => {
-                    let problem_ID = parseInt(problem.problem_ID, 10);
-                    problemMap[problem_ID] = problem['problem_name'];
-                });
-                city_problems = city_problems.map(cityProb => {
-                    return Object.assign(cityProb, {problem_ID: problemMap[cityProb.problem_ID]})
-                });
+            // Display health problem name instead of ID
+            let problemMap = {}
+            problems.map(problem => {
+                let problem_ID = parseInt(problem.problem_ID, 10);
+                problemMap[problem_ID] = problem['problem_name'];
+            });
+            city_problems = city_problems.map(cityProb => {
+                return Object.assign(cityProb, {problem_ID: problemMap[cityProb.problem_ID]})
+            });
                 
             // Displaying city name instead of ID
             let locationmap = {}
@@ -380,6 +380,54 @@ app.get('/cityHealthIssues', (req, res) => {
         })
     })
 });
+
+// Display health issues associated with a specific city
+app.get('/browseCityHealthIssue', (req, res) =>
+    {
+        let query1;
+        console.log(req.query['city-input'])
+        if (req.query['city-input'] === '0'){
+            query1 = `SELECT * FROM City_Health_Issues;`;
+        }
+        else{
+        query1 = `SELECT * FROM City_Health_Issues WHERE location_ID = "${req.query['city-input']}%"`;
+        }
+    
+        let query2 = `SELECT * FROM Locations`;
+        let query3 = `SELECT * FROM Health_Problems`;
+    
+        db.pool.query(query1, function(error, rows, fields) {
+            let city_problems = rows;
+            db.pool.query(query2, function(error, rows, fields) {
+                let locations = rows;
+                db.pool.query(query3, function(error, rows, fields) {
+                    let problems = rows;
+    
+                // Display health problem name instead of ID
+                let problemMap = {}
+                problems.map(problem => {
+                    let problem_ID = parseInt(problem.problem_ID, 10);
+                    problemMap[problem_ID] = problem['problem_name'];
+                });
+                city_problems = city_problems.map(indiv => {
+                    return Object.assign(indiv, {problem_ID: problemMap[indiv.problem_ID]})
+                });
+            
+                // Displaying city name instead of ID
+                let locationmap = {}
+                locations.map(location => {
+                    let location_ID = parseInt(location.location_ID, 10);
+                    locationmap[location_ID] = location['city_name'];
+                });
+                city_problems = city_problems.map(cityName => {
+                    return Object.assign(cityName, {location_ID: locationmap[cityName.location_ID]})
+                });
+            
+                return res.render('cityHealthIssues', {data: city_problems, locations: locations, problems: problems});
+                })
+            })
+        })
+    });
 
 // Add reported health issue to city's records
 app.post('/addCityHealthIssue', (req, res) => {
