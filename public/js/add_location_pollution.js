@@ -31,7 +31,7 @@ addRowToTable = (data) => {
     deleteCell = document.createElement("button");
     deleteCell.innerHTML = "Delete";
     deleteCell.onclick = function(){
-        deleteLocationPollution(newRow.log_date);
+        deleteDailyLocPoll(newRow.log_date);
     };
 
     // Add the cells to the row 

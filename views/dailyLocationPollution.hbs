@@ -61,18 +61,14 @@
 
 <!-- View historical pollution levels by location -->
 <div id="browse">
-    <form id="browsePollutionByCity">
-        <legend><strong>Browse Pollution Levels by City</strong></legend>
+    <form id="browsePollutionByCity" method="GET" action="/dailyLocationPollution">
+        <legend><strong>Browse Pollution Levels by City Name</strong></legend>
         <fieldset class="fields">
-            <label for="city"> Select a City: </label>
-            <select name="input-city" id="input-city" required="required">
-                <option value="">Select a City</option>
-                {{#each locations}}
-                <option value="{{this.location_ID}}">{{this.city_name}}</option>
-                {{/each}}
-            </select>
+            <label for="input-city"> Select a City: </label>
+            <input type="text" name="city" id="input-city">
         </fieldset>
         <input class="btn" type="submit" id="browsePollutionByCity" value="View Levels by City">
+        <a href="/dailyLocationPollution"><button>Reset</button></a>
     </form>
 </div>
 
@@ -82,14 +78,10 @@
         <legend><strong>Browse Pollution Levels by Date</strong></legend>
         <fieldset class="fields">
             <label for="date"> Select a Date: </label>
-            <select name="input-date" id="input-date" required="required">
-                <option value="">Select a Date</option>
-                {{#each dates}}
-                <option value="{{this.pollution_ID}}">{{this.date_recorded}}</option>
-                {{/each}}
-            </select>
+            <input type="text" name="date" id="input-date">
         </fieldset>
         <input class="btn" type="submit" id="browsePollutionByDate" value="View Levels by Date">
+        <a href="/dailyLocationPollution"><button>Reset</button></a>
     </form>
 </div>
 
