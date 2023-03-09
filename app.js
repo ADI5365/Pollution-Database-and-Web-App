@@ -243,17 +243,40 @@ app.get('/healthProblems', (req, res) => {
 // Add new health problem
 app.post('/addHealthProblem', (req, res) => {
     let data = req.body;
+    //console.log(data['terminal-input'])
 
-    query1 = `INSERT INTO Health_Problems (problem_name, problem_characteristics, is_terminal) VALUES ('${data['health-issue-input']}', '${data['characteristics-input']}', '${data['terminal-input']}');`;
+    query1 = `INSERT INTO Health_Problems (problem_name, problem_characteristics, is_terminal) VALUES ('${data['health-issue-input']}', '${data['characteristics-input']}', ${data['terminal-input']});`;
     db.pool.query(query1, function(error, rows, fields) {
         if(error) {
             console.log(error);
             res.sendStatus(400);
         } else {
-            res.redirect('/healthProblems');
+            res.render('/healthProblems');
         }
     })
 });
+
+// Update existing health problem
+app.put('/put-health-problem-ajax', function(req,res,next){
+    let data = req.body;
+    console.log(data)
+  
+    let problem_ID = data.problem_ID;
+    let problem_characteristics = data.problem_characteristics;
+    let is_terminal = data.is_terminal;
+    
+  
+    let queryUpdateHealthProblem = `UPDATE Health_Problems SET problem_characteristics = ?, is_terminal = ? WHERE problem_ID = ?;`;
+          db.pool.query(queryUpdateHealthProblem, [problem_characteristics, is_terminal, problem_ID], function(error, rows, fields){
+              if (error) {
+              // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+              console.log(error);
+              res.sendStatus(400);
+              }
+              else
+              {res.send(rows)}
+                                    })
+   })
 
 
 // CRUD OPERATIONS FOR INDIVIDUAL HEALTH ISSUES
@@ -385,7 +408,7 @@ app.get('/cityHealthIssues', (req, res) => {
 app.get('/browseCityHealthIssue', (req, res) =>
     {
         let query1;
-        console.log(req.query['city-input'])
+        //console.log(req.query['city-input'])
         if (req.query['city-input'] === '0'){
             query1 = `SELECT * FROM City_Health_Issues;`;
         }

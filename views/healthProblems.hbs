@@ -32,7 +32,7 @@
         <tbody>
 
             {{#each data}}
-            <tr>
+            <tr data-value={{this.problem_ID}}>
                 <td>{{this.problem_ID}}</td>
                 <td>{{this.problem_name}}</td>
                 <td>{{this.problem_characteristics}}</td>
@@ -60,9 +60,10 @@
             <label> Health Issue Characteristics </label> <input type="text" name="characteristics-input" id="characteristics-input" required="required">
             <label for="terminal-input"> is Terminal? </label>
             <select name="terminal-input" id="terminal-input" required="required">
-                <option value="select">Select No/Yes</option>
+                <option value="select">Select No/Yes or NULL</option>
                 <option value='0'>No</option>
                 <option value='1'>Yes</option>
+                <option value=NULL>NULL - unknown</option>
             </select>
         </fieldset>
         <input class="btn" type="submit" id="addHealthProblem" value="Add Health Problem">
@@ -71,22 +72,26 @@
 
 <!-- Update health problem attributes -->
 <div id="update">
-    <form id="updateHealthProblem">
+    <form id="update-health-problem-form-ajax">
         <legend><strong>Update Health Problem</strong></legend>
         <fieldset class="fields">
-            <label for="health problem"> Select a Health Problem: </label>
-            <select name="health problem" id="health problem">
+            <label for="health-problem-input"> Select a Health Problem: </label>
+            <select name="health-problem-input" id="health-problem-input" required="required">
                 <option value="select">Select</option>
                 <!-- dynamically generated drop down -->
+                {{#each data}}
+                <option value="{{this.problem_ID}}">{{this.problem_name}}</option>
+                {{/each}}                
             </select>
-            <label> Health Issue Characteristics </label> <input type="text" name="health issue characteristics">
+            <label> Health Issue Characteristics </label> <input type="text" name="health issue characteristics" id = "characteristics-input2">
             <label for="terminal"> is Terminal? </label>
-            <select name="terminal" id="terminal">
-                <option value="select">Select Yes/No</option>
-                <option value="0">Yes</option>
-                <option value="1">No</option>
+            <select name="terminal" id="terminal" required="required">
+                <option value="select">Select No/Yes</option>
+                <option value="0">No</option>
+                <option value="1">Yes</option>
             </select>
         </fieldset>
         <input class="btn" type="submit" id="updateHealthProblem" value="Update Health Problem">
+        <script src="./js/update_health_problem.js"></script>
     </form>
 </div>
