@@ -587,7 +587,7 @@ app.post('/addPollutionLevels', (req, res) => {
 });
 
 // Delete a city's log for pollution on a date
-app.delete('/delete-daily-locpoll-ajax/', function(req,res,next){
+app.delete('/delete-daily-locpoll-ajax', function(req,res,next){
     let data = req.body;
     let log_date = parseInt(data.id);
     let deleteDailyLocPoll = `DELETE FROM Daily_Location_Pollution WHERE log_date = ?;`;

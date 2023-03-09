@@ -2,7 +2,7 @@
     <h1>Daily Pollution in Each Location</h1>
 </header>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script type="text/javascript" src="./js/delete_daily_locpoll.js"></script>
+<script type="text/javascript" src="./js/delete_location_pollution.js"></script>
 
 {{!-- Nav bar for links to all pages on the site --}}
 <nav>
@@ -47,7 +47,7 @@
             {{/each}}
         </tbody>
     </table>
-    <script src="./js/delete_daily_locpoll.js"></script>
+    <script src="./js/delete_location_pollution.js"></script>
 </div>
 
 <div>
@@ -64,8 +64,8 @@
     <form id="browsePollutionByCity" method="GET" action="/dailyLocationPollution">
         <legend><strong>Browse Pollution Levels by City Name</strong></legend>
         <fieldset class="fields">
-            <label for="input-city"> Select a City: </label>
-            <input type="text" name="city" id="input-city">
+            <label for="city"> Search a City: </label>
+            <input type="text" name="city" id="input-city-search">
         </fieldset>
         <input class="btn" type="submit" id="browsePollutionByCity" value="View Levels by City">
         <a href="/dailyLocationPollution"><button>Reset</button></a>
@@ -74,11 +74,11 @@
 
 <!-- View all pollution levels in every location for a specific date -->
 <div id="browse">
-    <form id="browsePollutionByDate">
+    <form id="browsePollutionByDate" method="GET" action="/dailyLocationPollution">
         <legend><strong>Browse Pollution Levels by Date</strong></legend>
         <fieldset class="fields">
-            <label for="date"> Select a Date: </label>
-            <input type="text" name="date" id="input-date">
+            <label for="date"> Search a Date: </label>
+            <input type="date" name="date" id="input-date-search">
         </fieldset>
         <input class="btn" type="submit" id="browsePollutionByDate" value="View Levels by Date">
         <a href="/dailyLocationPollution"><button>Reset</button></a>
@@ -99,7 +99,7 @@
             </select>
             <label for="date"> Select a Date: </label>
             <select name="input-date" id="input-date" required="required">
-                <option value="select">Select</option>
+                <option value="select">Select a Date</option>
                 {{#each dates}}
                 <option value="{{this.pollution_ID}}">{{this.date_recorded}}</option>
                 {{/each}}
@@ -114,22 +114,16 @@
 
 <!-- Update pollution levels for specific city on specific date -->
 <div id="update">
-    <form id="updatePollutionLevel">
+    <form id="update-location-pollution-form-ajax">
         <legend><strong>Update Pollution Levels</strong></legend>
         <fieldset class="fields">
-            <label for="city-update"> Select a City: </label>
-            <select name="city-update" id="city-update">
-                <option value="select">Select a City</option>
+            <label for="city-update"> Select a Log Date to Edit: </label>
+            <select name="log-date-update" id="log-date-update">
+                <option value="select">Select a City/Date Log</option>
                 {{#each locations}}
-                <option value="{{this.location_ID}}">{{this.city_name}}</option>
+                <option value="{{this.log_date}}">{{this.city_name}}, {{date_recorded}}</option>
                 {{/each}}
             </select>
-            <label for="date-update"> Select a Date: </label>
-            <select name="date-update" id="date-update">
-                <option value="select">Select</option>
-                {{#each dates}}
-                <option value="{{this.pollution_ID}}">{{this.date_recorded}}</option>
-                {{/each}}
             </select>
             <label> Particulate Level </label> <input type="number" name="particulate_update" id="particulate_update">
             <label> NO2 Level </label> <input type="number" name="NO2_update" id="NO2_update">

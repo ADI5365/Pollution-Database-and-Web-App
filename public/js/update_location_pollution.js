@@ -1,19 +1,25 @@
-let updatePersonForm = document.getElementById('update-location-form-ajax');
+let updatePersonForm = document.getElementById('update-location-pollution-form-ajax');
 
 // Modifying a selected location in Locations
 updatePersonForm.addEventListener("submit", function (e) {
     e.preventDefault();
 
     // Get form fields we need to get data from
-    let inputCityName = document.getElementById("input-location_ID");
-    let inputPopulation = document.getElementById("population-update");
+    let inputCityName = document.getElementById("city-update");
+    let inputDate = document.getElementById("date-update");
+    let inputParticulate = document.getElementById("particulate-update");
+    let inputNO2 = document.getElementById("NO2-update");
+    let inputPAH = document.getElementById("PAH2-update");
 
     // Get the values from the form fields
     let cityNameValue = inputCityName.value;
-    let populationValue = inputPopulation.value;
+    let dateValue = inputDate.value;
+    let particulateValue = inputParticulate.value;
+    let NO2Value = inputNO2.value;
+    let PAHValue = inputPAH.value;
 
     // database table for People does not allow ID + age updating values to be NULL
-    if (isNaN(populationValue))
+    if (isNaN(particulateValue) || isNaN(NO2Value) || isNaN(PAHValue))
     {
         return;
     }
@@ -21,13 +27,16 @@ updatePersonForm.addEventListener("submit", function (e) {
     // Put our data we want to send in a javascript object
     let data = {
         city_name: cityNameValue,
-        population: populationValue
+        date: dateValue,
+        particulate_level: particulateValue,
+        NO2_level: NO2Value,
+        PAH_level: PAHValue
     }
 
     
     // Setup our AJAX request
     var xhttp = new XMLHttpRequest();
-    xhttp.open("PUT", "/put-location-ajax", true);
+    xhttp.open("PUT", "/put-location-pollution-ajax", true);
     xhttp.setRequestHeader("Content-type", "application/json");
 
     // Tell our AJAX request how to resolve
@@ -35,7 +44,7 @@ updatePersonForm.addEventListener("submit", function (e) {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
 
             // Add the new data to the table
-            updateRow(xhttp.response, cityNameValue);
+            updateRow(xhttp.response, inputIDValue);
 
             inputCityName.value = '';
             inputPopulation.value = '';
@@ -54,6 +63,7 @@ updatePersonForm.addEventListener("submit", function (e) {
 
 
 function updateRow(data, location_ID){
+    console.log("I'm in");
     let parsedData = JSON.parse(data);
     let table = document.getElementById("location-table");
 

@@ -23,7 +23,7 @@ addRowToTable = (data) => {
     deleteCell = document.createElement("button");
     deleteCell.innerHTML = "Delete";
     deleteCell.onclick = function(){
-        deleteLocation(newRow.location_ID);
+        deleteLocation(newRow.id);
     };
 
     // Add the cells to the row 
@@ -33,7 +33,7 @@ addRowToTable = (data) => {
     row.appendChild(populationCell);
     row.appendChild(deleteCell);
 
-    row.setAttribute('data-value', newRow.location_ID);
+    row.setAttribute('data-value', newRow.id);
     
     // Add the row to the table
     currentTable.appendChild(row);
@@ -41,6 +41,6 @@ addRowToTable = (data) => {
     let selectMenu = document.getElementById("input-location_ID");
     let option = document.createElement("option");
     option.text = newRow.city_name;
-    option.value = newRow.location_ID;
+    option.value = newRow.city_name;
     selectMenu.add(option);
 }
