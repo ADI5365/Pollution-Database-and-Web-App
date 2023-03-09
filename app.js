@@ -42,7 +42,7 @@ app.get('/locations', (req, res) => {
 app.post('/addLocation', (req, res) => {
     let data = req.body;
 
-    query1 = `INSERT INTO Locations (city_name, state_name, total_population) VALUES ('${data['input-city']}', '${data['input-state']}', '${data['input-population']}')`;
+    query1 = `INSERT INTO Locations (city_name, state_name, total_population) VALUES ('${data['input-city']}', '${data['input-state']}', '${data['input-population']}');`;
     db.pool.query(query1, function(error, rows, fields) {
         if(error) {
             console.log(error);
@@ -58,7 +58,7 @@ app.put('/put-location-ajax', (req, res) => {
     let data = req.body;
     let population = parseInt(data.total_population);
     let city = parseInt(data.city_name);
-    let queryUpdatePopulation = `UPDATE Locations SET total_population = ? WHERE Locations.location_ID = ?`;
+    let queryUpdatePopulation = `UPDATE Locations SET total_population = ? WHERE Locations.location_ID = ?;`;
 
     db.pool.query(queryUpdatePopulation, [population, city], function(error, rows, fields) {
         if(error) {
@@ -74,26 +74,45 @@ app.put('/put-location-ajax', (req, res) => {
 app.delete('/delete-location-ajax/', function(req,res,next){
     let data = req.body;
     let location_ID = parseInt(data.id);
-    let deletePerson_Location = `DELETE FROM People WHERE location_ID = ?`;
-    let deleteLocation = `DELETE FROM Locations WHERE location_ID = ?`;
+
+    // Must delete location_ID FK from all children tables before deleting it here
+    let deletePerson_Location = `DELETE FROM People WHERE location_ID = ?;`;
+    let deleteCity_HealthIssues = `DELETE FROM City_Health_Issues WHERE location_ID = ?;`;
+    let deleteCity_DailyPollution = `DELETE FROM Daily_Location_Pollution WHERE location_ID = ?;`;
+    let deleteLocation = `DELETE FROM Locations WHERE location_ID = ?;`;
 
     db.pool.query(deletePerson_Location, [location_ID], function(error, rows, fields){
         if (error) {
-        // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
             console.log(error);
             res.sendStatus(400);
         } else {
-            db.pool.query(deleteLocation, [location_ID], function(error, rows, fields) {
+            db.pool.query(deleteCity_HealthIssues, [location_ID], function(error, rows, fields){
                 if (error) {
                     console.log(error);
                     res.sendStatus(400);
                 } else {
-                    res.sendStatus(204);
+                    db.pool.query(deleteCity_DailyPollution, [location_ID], function(error, rows, fields){
+                        if (error) {
+                            console.log(error);
+                            res.sendStatus(400);
+                        } else {
+                            db.pool.query(deleteLocation, [location_ID], function(error, rows, fields) {
+                                if (error) {
+                                    console.log(error);
+                                    res.sendStatus(400);
+                                } else {
+                                    res.sendStatus(204);
+                                }
+                            })
+                        }
+                    })
                 }
             })
         }
     })
-});    
+});
+
+
 
 
 
@@ -128,7 +147,7 @@ app.get('/people', (req, res) => {
 app.post('/addPerson', (req, res) => {
     let data = req.body;
 
-    query1 = `INSERT INTO People (age, location_ID) VALUES ('${data['input-age']}', '${data['input-location_ID']}')`;
+    query1 = `INSERT INTO People (age, location_ID) VALUES ('${data['input-age']}', '${data['input-location_ID']}');`;
     db.pool.query(query1, function(error, rows, fields) {
         if(error) {
             console.log(error);
@@ -143,12 +162,12 @@ app.post('/addPerson', (req, res) => {
 app.put('/put-person-ajax', function(req, res, next){
     let data = req.body;
   
-    let person_ID = parseInt(data.person_ID);
+    let person_ID = parseInt(data.id);
     let age = parseInt(data.age);
     let location_ID = parseInt(data.location_ID)
   
-    let queryUpdatePeople = `UPDATE People SET age = ?, location_ID = ? WHERE People.person_ID = ? `;
-    let selectCity = `SELECT * FROM Locations WHERE location_ID = ?`
+    let queryUpdatePeople = `UPDATE People SET age = ?, location_ID = ? WHERE People.person_ID = ?;`;
+    let selectCity = `SELECT * FROM Locations WHERE location_ID = ?;`;
 
     db.pool.query(queryUpdatePeople, [age, location_ID, person_ID], function(error, rows, fields){
         if (error) {
@@ -186,8 +205,8 @@ app.put('/put-person-ajax', function(req, res, next){
 app.delete('/delete-person-ajax/', function(req,res,next){
     let data = req.body;
     let person_ID = parseInt(data.id);
-    let deleteIndividual_Health_Issues_Person = `DELETE FROM Individual_Health_Issues WHERE person_health_ID = ?`;
-    let deletePerson = `DELETE FROM People WHERE person_ID = ?`;
+    let deleteIndividual_Health_Issues_Person = `DELETE FROM Individual_Health_Issues WHERE person_ID = ?;`;
+    let deletePerson = `DELETE FROM People WHERE person_ID = ?;`;
 
     db.pool.query(deleteIndividual_Health_Issues_Person, [person_ID], function(error, rows, fields){
         if (error) {
@@ -225,7 +244,7 @@ app.get('/healthProblems', (req, res) => {
 app.post('/addHealthProblem', (req, res) => {
     let data = req.body;
 
-    query1 = `INSERT INTO Health_Problems (problem_name, problem_characteristics, is_terminal) VALUES ('${data['health-issue-input']}', '${data['characteristics-input']}', '${data['terminal-input']}')`;
+    query1 = `INSERT INTO Health_Problems (problem_name, problem_characteristics, is_terminal) VALUES ('${data['health-issue-input']}', '${data['characteristics-input']}', '${data['terminal-input']}');`;
     db.pool.query(query1, function(error, rows, fields) {
         if(error) {
             console.log(error);
@@ -243,7 +262,7 @@ app.post('/addHealthProblem', (req, res) => {
 app.get('/individualHealthIssues', (req, res) => {
     let query1 = `SELECT * FROM Individual_Health_Issues;`;
     let query2 = `SELECT * FROM People;`;
-    let query3 = `SELECT * FROM Health_Problems`;
+    let query3 = `SELECT * FROM Health_Problems;`;
 
     db.pool.query(query1, function(error, rows, fields) {
         let individual_problems = rows;
@@ -310,7 +329,7 @@ app.get('/browseIndividualHealthIssue', (req, res) =>
 app.post('/addIndividualHealthIssue', (req, res) => {
     let data = req.body;
 
-    query1 = `INSERT INTO Individual_Health_Issues (person_ID, problem_ID) VALUES ('${data['person-input']}', '${data['health-problem-input']}')`;
+    query1 = `INSERT INTO Individual_Health_Issues (person_ID, problem_ID) VALUES ('${data['person-input']}', '${data['health-problem-input']}');`;
     db.pool.query(query1, function(error, rows, fields) {
         if(error) {
             console.log(error);
@@ -327,7 +346,7 @@ app.post('/addIndividualHealthIssue', (req, res) => {
 app.get('/cityHealthIssues', (req, res) => {
     let query1 = `SELECT * FROM City_Health_Issues;`;
     let query2 = `SELECT * FROM Locations;`;
-    let query3 = `SELECT * FROM Health_Problems`;
+    let query3 = `SELECT * FROM Health_Problems;`;
 
     db.pool.query(query1, function(error, rows, fields) {
         let city_problems = rows;
@@ -366,7 +385,7 @@ app.get('/cityHealthIssues', (req, res) => {
 app.post('/addCityHealthIssue', (req, res) => {
     let data = req.body;
 
-    query1 = `INSERT INTO City_Health_Issues (location_ID, problem_ID) VALUES ('${data['city-input']}', '${data['health-problem-input']}')`;
+    query1 = `INSERT INTO City_Health_Issues (location_ID, problem_ID) VALUES ('${data['city-input']}', '${data['health-problem-input']}');`;
     db.pool.query(query1, function(error, rows, fields) {
         if(error) {
             console.log(error);
@@ -394,7 +413,7 @@ app.get('/pollutionLevelsByDay', (req, res) => {
 app.post('/addPollutionDate', (req, res) => {
     let data = req.body;
 
-    query1 = `INSERT INTO Pollution_Levels_By_Day (date_recorded) VALUES ('${data['input-date']}')`;
+    query1 = `INSERT INTO Pollution_Levels_By_Day (date_recorded) VALUES ('${data['input-date']}');`;
     db.pool.query(query1, function(error, rows, fields) {
         if(error) {
             console.log(error);
@@ -409,8 +428,8 @@ app.post('/addPollutionDate', (req, res) => {
 app.delete('/delete-pollution-date-ajax/', function(req,res,next){
     let data = req.body;
     let pollution_ID = parseInt(data.id);
-    let deleteDaily_Location_Pollution_Days = `DELETE FROM Daily_Location_Pollution WHERE pollution_ID = ?`;
-    let deletePollutionDate = `DELETE FROM Pollution_Levels_By_Day WHERE pollution_ID = ?`;
+    let deleteDaily_Location_Pollution_Days = `DELETE FROM Daily_Location_Pollution WHERE pollution_ID = ?;`;
+    let deletePollutionDate = `DELETE FROM Pollution_Levels_By_Day WHERE pollution_ID = ?;`;
 
     db.pool.query(deleteDaily_Location_Pollution_Days, [pollution_ID], function(error, rows, fields){
         if (error) {
@@ -436,9 +455,18 @@ app.delete('/delete-pollution-date-ajax/', function(req,res,next){
 
 // Display Daily Location Pollution page
 app.get('/dailyLocationPollution', (req, res) => {
-    let query1 = `SELECT * FROM Daily_Location_Pollution`;
-    let query2 = `SELECT * FROM Pollution_Levels_By_Day`;
-    let query3 = `SELECT * FROM Locations`;
+    let query1;
+
+    if((req.query.city === undefined) || req.query.date === undefined) {
+        query1 = `SELECT * FROM Daily_Location_Pollution;`;
+    } else if(req.query.city !== undefined) {
+        query1 = `SELECT * FROM Daily_Location_Pollution WHERE city_name LIKE "${req.query.city}%";`;
+    } else {
+        query1 = `SELECT * FROM Daily_Location_Pollution WHERE pollution_ID LIKE "${req.query.date}%";`;
+    }
+
+    let query2 = `SELECT * FROM Pollution_Levels_By_Day;`;
+    let query3 = `SELECT * FROM Locations;`;
 
     db.pool.query(query1, function(error, rows, fields) {
         let daily_poll = rows;
@@ -476,30 +504,30 @@ app.get('/dailyLocationPollution', (req, res) => {
 app.post('/addPollutionLevels', (req, res) => {
     let data = req.body;
 
-    let particulate_level = parseInt(data.particulate_level);
-    let NO2_level = parseInt(data.NO2_level);
-    let PAH_level = parseInt(data.PAH_level);
-
-    if (isNaN(particulate_level))
-    {
-        particulate_level = 'NULL'
-    }
-    if (isNaN(NO2_level))
-    {
-        NO2_level = 'NULL'
-    }
-    if (isNaN(PAH_level))
-    {
-        PAH_level = 'NULL'
-    }
-
-    query1 = `INSERT INTO Daily_Location_Pollution (location_ID, pollution_ID, particulate_level, NO2_level, PAH_level) VALUES ('${data['input-location_ID']}', '${data['input-date']}', '${particulate_level}', '${NO2_level}', '${PAH_level}')`;
+    query1 = `INSERT INTO Daily_Location_Pollution (location_ID, pollution_ID, particulate_level, NO2_level, PAH_level) VALUES ('${data['input-location_ID']}', '${data['input-date']}', '${data['input-particulate']}', '${data['input-NO2']}', '${data['input-PAH']}')`;
     db.pool.query(query1, function(error, rows, fields) {
         if(error) {
             console.log(error);
             res.sendStatus(400);
         } else {
             res.redirect('/dailyLocationPollution')
+        }
+    })
+});
+
+// Delete a city's log for pollution on a date
+app.delete('/delete-daily-locpoll-ajax/', function(req,res,next){
+    let data = req.body;
+    let log_date = parseInt(data.id);
+    let deleteDailyLocPoll = `DELETE FROM Daily_Location_Pollution WHERE log_date = ?;`;
+
+    db.pool.query(deleteDailyLocPoll, [log_date], function(error, rows, fields){
+        if (error) {
+        // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+        console.log(error);
+        res.sendStatus(400);
+        } else {
+            res.sendStatus(204);
         }
     })
 });
