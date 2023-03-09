@@ -143,7 +143,7 @@ app.post('/addPerson', (req, res) => {
 app.put('/put-person-ajax', function(req, res, next){
     let data = req.body;
   
-    let person_ID = parseInt(data.person_ID);
+    let person_ID = parseInt(data.id);
     let age = parseInt(data.age);
     let location_ID = parseInt(data.location_ID)
   
@@ -186,7 +186,7 @@ app.put('/put-person-ajax', function(req, res, next){
 app.delete('/delete-person-ajax/', function(req,res,next){
     let data = req.body;
     let person_ID = parseInt(data.id);
-    let deleteIndividual_Health_Issues_Person = `DELETE FROM Individual_Health_Issues WHERE person_health_ID = ?`;
+    let deleteIndividual_Health_Issues_Person = `DELETE FROM Individual_Health_Issues WHERE person_ID = ?`;
     let deletePerson = `DELETE FROM People WHERE person_ID = ?`;
 
     db.pool.query(deleteIndividual_Health_Issues_Person, [person_ID], function(error, rows, fields){
@@ -457,24 +457,24 @@ app.get('/dailyLocationPollution', (req, res) => {
 app.post('/addPollutionLevels', (req, res) => {
     let data = req.body;
 
-    let particulate_level = parseInt(data.particulate_level);
-    let NO2_level = parseInt(data.NO2_level);
-    let PAH_level = parseInt(data.PAH_level);
+    // let particulate_level = parseInt(data.particulate_level);
+    // let NO2_level = parseInt(data.NO2_level);
+    // let PAH_level = parseInt(data.PAH_level);
 
-    if (isNaN(particulate_level))
-    {
-        particulate_level = 'NULL'
-    }
-    if (isNaN(NO2_level))
-    {
-        NO2_level = 'NULL'
-    }
-    if (isNaN(PAH_level))
-    {
-        PAH_level = 'NULL'
-    }
+    // if (isNaN(particulate_level))
+    // {
+    //     particulate_level = 'NULL'
+    // }
+    // if (isNaN(NO2_level))
+    // {
+    //     NO2_level = 'NULL'
+    // }
+    // if (isNaN(PAH_level))
+    // {
+    //     PAH_level = 'NULL'
+    // }
 
-    query1 = `INSERT INTO Daily_Location_Pollution (location_ID, pollution_ID, particulate_level, NO2_level, PAH_level) VALUES ('${data['input-location_ID']}', '${data['input-date']}', '${particulate_level}', '${NO2_level}', '${PAH_level}')`;
+    query1 = `INSERT INTO Daily_Location_Pollution (location_ID, pollution_ID, particulate_level, NO2_level, PAH_level) VALUES ('${data['input-location_ID']}', '${data['input-date']}', '${data['input-particulate']}', '${data['input-NO2']}', '${data['input-PAH']}')`;
     db.pool.query(query1, function(error, rows, fields) {
         if(error) {
             console.log(error);
