@@ -17,7 +17,7 @@
 {{!-- Health Problems Display Table --}}
 <div id="browse">
     <h3>Browse Health Problems</h3>
-    <table>
+    <table id="health-problems-table">
         <thead>
 
             <tr>
@@ -53,16 +53,16 @@
 
 <!-- Add new health problem -->
 <div id="insert">
-    <form id="addHealthProblem">
+    <form id="addHealthProblem" method="POST" action="/addHealthProblem">
         <legend><strong>Add Health Problem</strong></legend>
         <fieldset class="fields">
-            <label> Health Issue </label> <input type="text" name="health issue">
-            <label> Health Issue Characteristics </label> <input type="text" name="health issue Characteristics">
-            <label for="terminal"> is Terminal? </label>
-            <select name="terminal" id="terminal">
-                <option value="select">Select Yes/No</option>
-                <option value="0">Yes</option>
-                <option value="1">No</option>
+            <label> Health Issue </label> <input type="text" name="health-issue-input" id="health-issue-input" required="required">
+            <label> Health Issue Characteristics </label> <input type="text" name="characteristics-input" id="characteristics-input" required="required">
+            <label for="terminal-input"> is Terminal? </label>
+            <select name="terminal-input" id="terminal-input" required="required">
+                <option value="select">Select No/Yes</option>
+                <option value='0'>No</option>
+                <option value='1'>Yes</option>
             </select>
         </fieldset>
         <input class="btn" type="submit" id="addHealthProblem" value="Add Health Problem">

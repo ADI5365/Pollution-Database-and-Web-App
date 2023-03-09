@@ -3,7 +3,7 @@
 */
 var express = require('express');
 var app = express();
-PORT = 62110;
+PORT = 3000;
 var db = require('./database/db-connector');
 
 app.use(express.json());
@@ -213,27 +213,101 @@ app.delete('/delete-person-ajax/', function(req,res,next){
 
 // CRUD OPERATIONS FOR HEALTH PROBLEMS
 
-// Render health-problems page
+// Display Health Problems table
 app.get('/healthProblems', (req, res) => {
-    res.render('healthProblems');
+    let query1 = `SELECT * from Health_Problems;`;
+    db.pool.query(query1, function(error, rows, fields) {
+        return res.render('healthProblems', {data: rows});
+    });
 });
 
+// Add new health problem
+app.post('/addHealthProblem', (req, res) => {
+    let data = req.body;
+
+    query1 = `INSERT INTO Health_Problems (problem_name, problem_characteristics, is_terminal) VALUES ('${data['health-issue-input']}', '${data['characteristics-input']}', '${data['terminal-input']}')`;
+    db.pool.query(query1, function(error, rows, fields) {
+        if(error) {
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            res.redirect('/healthProblems');
+        }
+    })
+});
 
 
 // CRUD OPERATIONS FOR INDIVIDUAL HEALTH ISSUES
 
-// Render individual-health-issues page
+// Display Individual Health Issues table
 app.get('/individualHealthIssues', (req, res) => {
-    res.render('individualHealthIssues');
+    let query1 = `SELECT * FROM Individual_Health_Issues;`;
+    let query2 = `SELECT * FROM People;`;
+    let query3 = `SELECT * FROM Health_Problems`;
+
+    db.pool.query(query1, function(error, rows, fields) {
+        let individual_problems = rows;
+        db.pool.query(query2, function(error, rows, fields) {
+            let people = rows;
+            db.pool.query(query3, function(error, rows, fields) {
+                let problems = rows;
+
+                // //Display health problem name instead of ID
+                // let problemmap = {}
+                // problems.map(problem => {
+                //     let problem_ID = parseInt(problem.problem_ID, 10);
+                //     problemmap[problem_ID] = problem['problem_name'];
+                // });
+                // indivProb = indivProb.map(indiv => {
+                //     return Object.assign(indiv, {problem_ID: problemmap[indiv.problem_ID]})
+                // });
+                
+                return res.render('individualHealthIssues', {data: individual_problems, people: people, problems: problems});
+            })
+        })
+    })
 });
 
+//Display health issues associated with a specific person
+app.get('/browseIndividualHealthIssue', function(req, res)
+{
+    let query1 = `SELECT * FROM Individual_Health_Issues WHERE person_ID = "${req.query.indiv-input}%"`
+    let query2 = `SELECT * FROM People`;
+    let query3 = `SELECT * FROM Health_Problems`;
 
+    db.pool.query(query1, function(error, rows, fields) {
+        let individual_problems = rows;
+        db.pool.query(query2, function(error, rows, fields) {
+            let people = rows;
+            db.pool.query(query3, function(error, rows, fields) {
+                let problems = rows;
+                return res.render('individualHealthIssues', {data: individual_problems, people: people, problems: problems});
+            })
+        })
+    })
+});
 
 // CRUD OPERATIONS FOR CITY HEALTH ISSUES
 
-// Render city-health-issues page
+// Display Health Issues by City table
 app.get('/cityHealthIssues', (req, res) => {
-    res.render('cityHealthIssues');
+    let query1 = `SELECT * FROM City_Health_Issues;`;
+    let query2 = `SELECT * FROM Locations;`;
+    let query3 = `SELECT * FROM Health_Problems`;
+
+    db.pool.query(query1, function(error, rows, fields) {
+        let city_problems = rows;
+        db.pool.query(query2, function(error, rows, fields) {
+            let locations = rows;
+            db.pool.query(query3, function(error, rows, fields) {
+                let problems = rows;
+
+                //Display health problem name instead of ID
+                
+                return res.render('cityHealthIssues', {data: city_problems, locations: locations, problems: problems});
+            })
+        })
+    })
 });
 
 

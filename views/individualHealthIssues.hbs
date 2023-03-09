@@ -17,7 +17,7 @@
 {{!-- Individual Health Issues Display Table --}}
 <div id="browse">
     <h3>Browse Individual Health Issues</h3>
-    <table>
+    <table id = "individual-health-issues-table">
         <thead>
 
             <tr>
@@ -52,13 +52,16 @@
 
 <!-- See all health issues associated with specific person -->
 <div id="browse">
-    <form id="browseIndividualHealthIssue">
+    <form id="browseIndividualHealthIssue" method = 'GET' action = '/browseIndividualHealthIssue'>
         <legend><strong>Browse Health Issues by Person</strong></legend>
         <fieldset class="fields">
-            <label for="person"> Select the Personal ID: </label>
-            <select name="person" id="person">
+            <label for="indiv-input"> Select the Personal ID: </label>
+            <select name="indiv-input" id="indiv-input">
                 <option value="select">Select</option>
                 <!-- dynamically generated drop down -->
+                {{#each people}}
+                <option value="{{this.person_ID}}">{{this.person_ID}}</option>
+                {{/each}}
             </select>
         </fieldset>
         <input class="btn" type="submit" id="browseIndividualHealthIssue" value="View All">
