@@ -269,9 +269,17 @@ app.get('/individualHealthIssues', (req, res) => {
 });
 
 // Display health issues associated with a specific person
-app.get('/browseIndividualHealthIssue', function(req, res)
+app.get('/browseIndividualHealthIssue', (req, res) =>
 {
-    let query1 = `SELECT * FROM Individual_Health_Issues WHERE person_ID = "${req.query.indiv-input}%"`
+    let query1;
+    console.log(req.query['indiv-input'])
+    if (req.query['indiv-input'] === '0'){
+        query1 = `SELECT * FROM Individual_Health_Issues;`;
+    }
+    else{
+    query1 = `SELECT * FROM Individual_Health_Issues WHERE person_ID = "${req.query['indiv-input']}%"`;
+    }
+
     let query2 = `SELECT * FROM People`;
     let query3 = `SELECT * FROM Health_Problems`;
 
@@ -281,6 +289,17 @@ app.get('/browseIndividualHealthIssue', function(req, res)
             let people = rows;
             db.pool.query(query3, function(error, rows, fields) {
                 let problems = rows;
+
+                // Display health problem name instead of ID
+                let problemMap = {}
+                problems.map(problem => {
+                    let problem_ID = parseInt(problem.problem_ID, 10);
+                    problemMap[problem_ID] = problem['problem_name'];
+                });
+                individual_problems = individual_problems.map(indiv => {
+                    return Object.assign(indiv, {problem_ID: problemMap[indiv.problem_ID]})
+                });
+                                
                 return res.render('individualHealthIssues', {data: individual_problems, people: people, problems: problems});
             })
         })
