@@ -252,15 +252,15 @@ app.get('/individualHealthIssues', (req, res) => {
             db.pool.query(query3, function(error, rows, fields) {
                 let problems = rows;
 
-                // //Display health problem name instead of ID
-                // let problemmap = {}
-                // problems.map(problem => {
-                //     let problem_ID = parseInt(problem.problem_ID, 10);
-                //     problemmap[problem_ID] = problem['problem_name'];
-                // });
-                // indivProb = indivProb.map(indiv => {
-                //     return Object.assign(indiv, {problem_ID: problemmap[indiv.problem_ID]})
-                // });
+                // Display health problem name instead of ID
+                let problemMap = {}
+                problems.map(problem => {
+                    let problem_ID = parseInt(problem.problem_ID, 10);
+                    problemMap[problem_ID] = problem['problem_name'];
+                });
+                individual_problems = individual_problems.map(indiv => {
+                    return Object.assign(indiv, {problem_ID: problemMap[indiv.problem_ID]})
+                });
                 
                 return res.render('individualHealthIssues', {data: individual_problems, people: people, problems: problems});
             })
@@ -316,9 +316,27 @@ app.get('/cityHealthIssues', (req, res) => {
             let locations = rows;
             db.pool.query(query3, function(error, rows, fields) {
                 let problems = rows;
-
-                //Display health problem name instead of ID
                 
+                // Display health problem name instead of ID
+                let problemMap = {}
+                problems.map(problem => {
+                    let problem_ID = parseInt(problem.problem_ID, 10);
+                    problemMap[problem_ID] = problem['problem_name'];
+                });
+                city_problems = city_problems.map(cityProb => {
+                    return Object.assign(cityProb, {problem_ID: problemMap[cityProb.problem_ID]})
+                });
+                
+            // Displaying city name instead of ID
+            let locationmap = {}
+            locations.map(location => {
+                let location_ID = parseInt(location.location_ID, 10);
+                locationmap[location_ID] = location['city_name'];
+            });
+            city_problems = city_problems.map(cityName => {
+                return Object.assign(cityName, {location_ID: locationmap[cityName.location_ID]})
+            })
+
                 return res.render('cityHealthIssues', {data: city_problems, locations: locations, problems: problems});
             })
         })
