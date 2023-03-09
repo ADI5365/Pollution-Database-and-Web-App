@@ -15,13 +15,14 @@ updatePersonForm.addEventListener("submit", function (e) {
     let inputCityValue = inputCity.value;
 
     // database table for People does not allow ID + age updating values to be NULL
-    if (isNaN(inputIDValue) || isNaN(inputAgeValue) || isNaN(inputCityValue))
+    if (isNaN(inputIDValue))
     {
         return;
     }
 
     // Put our data we want to send in a javascript object
     let data = {
+        person_ID: inputIDValue,
         age: inputAgeValue,
         location_ID: inputCityValue
     }
@@ -37,6 +38,10 @@ updatePersonForm.addEventListener("submit", function (e) {
 
             // Add the new data to the table
             updateRow(xhttp.response, inputIDValue);
+
+            inputID.value = '';
+            inputAge.value = '';
+            inputCity.value = '';
 
         }
         else if (xhttp.readyState == 4 && xhttp.status != 200) {
@@ -63,8 +68,8 @@ function updateRow(data, person_ID){
             // Get the location of the row where we found the matching person ID
             let updateRowIndex = table.getElementsByTagName("tr")[i];
 
-            let td = updateRowIndex.getElementsByTagName("td")[3];
-            td.innerHTML = parsedData[0].name
+            let td = updateRowIndex.getElementsByTagName("td")[2];
+            // td.innerHTML = parsedData[0].name
        }
     }
 }

@@ -40,7 +40,7 @@ addRowToTable = (data) => {
 
     let selectMenu = document.getElementById("input-location_ID");
     let option = document.createElement("option");
-    option.text = newRow.city;
+    option.text = newRow.city_name;
     option.value = newRow.location_ID;
     selectMenu.add(option);
 }

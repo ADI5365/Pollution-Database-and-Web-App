@@ -56,7 +56,7 @@ app.post('/addLocation', (req, res) => {
 // Update existing location population
 app.put('/put-location-ajax', (req, res) => {
     let data = req.body;
-    let population = parseInt(data.total_population);
+    let population = parseInt(data.population);
     let city = parseInt(data.city_name);
     let queryUpdatePopulation = `UPDATE Locations SET total_population = ? WHERE Locations.location_ID = ?;`;
 
@@ -162,7 +162,7 @@ app.post('/addPerson', (req, res) => {
 app.put('/put-person-ajax', function(req, res, next){
     let data = req.body;
   
-    let person_ID = parseInt(data.id);
+    let person_ID = parseInt(data.person_id);
     let age = parseInt(data.age);
     let location_ID = parseInt(data.location_ID)
   
