@@ -1,33 +1,30 @@
-let updatePersonForm = document.getElementById('update-location-pollution-form-ajax');
+let UpdatePollutionLevelForm = document.getElementById('update-location-pollution-form-ajax');
 
 // Modifying a selected location in Locations
-updatePersonForm.addEventListener("submit", function (e) {
+UpdatePollutionLevelForm.addEventListener("submit", function (e) {
     e.preventDefault();
 
     // Get form fields we need to get data from
-    let inputCityName = document.getElementById("city-update");
-    let inputDate = document.getElementById("date-update");
-    let inputParticulate = document.getElementById("particulate-update");
-    let inputNO2 = document.getElementById("NO2-update");
-    let inputPAH = document.getElementById("PAH2-update");
+    let inputID = document.getElementById("log-date-update");
+    let inputParticulate = document.getElementById("particulate_update");
+    let inputNO2 = document.getElementById("NO2_update");
+    let inputPAH = document.getElementById("PAH_update");
 
     // Get the values from the form fields
-    let cityNameValue = inputCityName.value;
-    let dateValue = inputDate.value;
+    let inputIDValue = inputID.value;
     let particulateValue = inputParticulate.value;
     let NO2Value = inputNO2.value;
     let PAHValue = inputPAH.value;
 
-    // database table for People does not allow ID + age updating values to be NULL
-    if (isNaN(particulateValue) || isNaN(NO2Value) || isNaN(PAHValue))
+    // database table for Daily_Location_Pollution does not allow log_date be NULL
+    if (isNaN(inputIDValue))
     {
         return;
     }
 
     // Put our data we want to send in a javascript object
     let data = {
-        city_name: cityNameValue,
-        date: dateValue,
+        log_date: inputIDValue,
         particulate_level: particulateValue,
         NO2_level: NO2Value,
         PAH_level: PAHValue
@@ -46,9 +43,6 @@ updatePersonForm.addEventListener("submit", function (e) {
             // Add the new data to the table
             updateRow(xhttp.response, inputIDValue);
 
-            inputCityName.value = '';
-            inputPopulation.value = '';
-
         }
         else if (xhttp.readyState == 4 && xhttp.status != 200) {
             console.log("There was an error with the input.")
@@ -57,26 +51,25 @@ updatePersonForm.addEventListener("submit", function (e) {
 
     // Send the request and wait for the response
     xhttp.send(JSON.stringify(data));
-    console.log(data)
 
 })
 
 
-function updateRow(data, location_ID){
+function updateRow(data, log_date){
     console.log("I'm in");
     let parsedData = JSON.parse(data);
-    let table = document.getElementById("location-table");
+    let table = document.getElementById("location-pollution-table");
 
     for (let i = 0, row; row = table.rows[i]; i++) {
        //iterate through rows
        //rows would be accessed using the "row" variable assigned in the for loop
-       if (table.rows[i].getAttribute("data-value") == location_ID) {
+       if (table.rows[i].getAttribute("data-value") == log_date) {
 
             // Get the location of the row where we found the matching person ID
             let updateRowIndex = table.getElementsByTagName("tr")[i];
 
             let td = updateRowIndex.getElementsByTagName("td")[3];
-            td.innerHTML = parsedData[0].name
+            //td.innerHTML = parsedData[0].name
        }
     }
 }

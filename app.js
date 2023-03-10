@@ -736,6 +736,28 @@ app.delete('/delete-daily-locpoll-ajax', function(req,res,next){
     })
 });
 
+// Update pollution levels for a specific log date
+app.put('/put-location-pollution-ajax', function(req,res,next){
+    let data = req.body;
+    console.log(data)
+  
+    let log_date = data.log_date;
+    let particulate_level = data.particulate_level;
+    let NO2_level = data.NO2_level;
+    let PAH_level = data.PAH_level;
+  
+    let queryUpdateLocationPollution = `UPDATE Daily_Location_Pollution SET particulate_level = ?, NO2_level = ?, PAH_level = ? WHERE log_date = ?;`;
+          db.pool.query(queryUpdateLocationPollution, [particulate_level, NO2_level, PAH_level, log_date], function(error, rows, fields){
+              if (error) {
+              // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+              console.log(error);
+              res.sendStatus(400);
+              }
+              else
+              {res.send(rows)}
+                                    })
+   })
+
 
 /*
     LISTENER

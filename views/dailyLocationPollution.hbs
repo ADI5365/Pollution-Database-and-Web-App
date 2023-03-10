@@ -35,7 +35,7 @@
         <tbody>
 
             {{#each data}}
-            <tr>
+            <tr data-value="{{this.log_date}}">
                 <td>{{this.log_date}}</td>
                 <td>{{this.location_ID}}</td>
                 <td>{{this.pollution_ID}}</td>
@@ -131,9 +131,9 @@
         <fieldset class="fields">
             <label for="city-update"> Select a Log Date to Edit: </label>
             <select name="log-date-update" id="log-date-update">
-                <option value="select">Select a City/Date Log</option>
-                {{#each locations}}
-                <option value="{{this.log_date}}">{{this.city_name}}, {{date_recorded}}</option>
+                <option value="select">Select</option>
+                {{#each data}}
+                <option value="{{this.log_date}}">{{this.log_date}}</option>
                 {{/each}}
             </select>
             </select>
@@ -142,5 +142,6 @@
             <label> PAH Level </label> <input type="number" name="PAH_update" id="PAH_update">
         </fieldset>
         <input class="btn" type="submit" id="UpdatePollutionLevel" value="Update Pollution Levels">
+        <script src="./js/update_daily_location_pollution.js"></script>
     </form>
 </div>
