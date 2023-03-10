@@ -18,10 +18,10 @@
 {{!-- Health Issues by City Display Table --}}
 <div id="browse">
     <h3>Browse Health Issues by City</h3>
-    <table>
+    <table id = "city-health-issues-table">
         <thead>
 
-            <tr>
+            <tr data-value={{this.city_health_ID}}>
                 {{#each data.[0]}}
                 <th>
                     {{@key}}
@@ -38,11 +38,12 @@
                 <td>{{this.city_health_ID}}</td>
                 <td>{{this.location_ID}}</td>
                 <td>{{this.problem_ID}}</td>
-                <td><button onclick="deleteCityHeathIssue({{this.city_health_ID}})">Delete</button></td>
+                <td><button onclick="deleteCityHealthIssue({{this.city_health_ID}})">Delete</button></td>
             </tr>
             {{/each}}
         </tbody>
     </table>
+    <script src="./js/delete_city_health_issue.js"></script>
 </div>
 
 <div>

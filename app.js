@@ -488,7 +488,26 @@ app.post('/addCityHealthIssue', (req, res) => {
     })
 });
 
+// Delete city health issue
+app.delete('/delete-city-health-issue-ajax', function(req,res,next){
+    let data = req.body;
+    let cityHealthID = parseInt(data.id);
+    let delete_city_health_issue = `DELETE FROM City_Health_Issues WHERE city_health_ID = ?`;
 
+          db.pool.query(delete_city_health_issue, [cityHealthID], function(error, rows, fields){
+              if (error) {
+  
+              // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+              console.log(error);
+              res.sendStatus(400);
+              }
+  
+              else
+              {
+                res.sendStatus(204);
+                      }
+                  })
+              })
 
 // CRUD OPERATIONS FOR DATES WITH POLLUTION DATA
 
