@@ -348,6 +348,27 @@ app.get('/browseIndividualHealthIssue', (req, res) =>
     })
 });
 
+// Delete individual health issue
+app.delete('/delete-individual-health-issue-ajax', function(req,res,next){
+    let data = req.body;
+    let healthID = parseInt(data.id);
+    let delete_individual_health_issue = `DELETE FROM Individual_Health_Issues WHERE person_health_ID = ?`;
+
+          db.pool.query(delete_individual_health_issue, [healthID], function(error, rows, fields){
+              if (error) {
+  
+              // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+              console.log(error);
+              res.sendStatus(400);
+              }
+  
+              else
+              {
+                res.sendStatus(204);
+                      }
+                  })
+              })
+
 // Add new association between person and health problem
 app.post('/addIndividualHealthIssue', (req, res) => {
     let data = req.body;

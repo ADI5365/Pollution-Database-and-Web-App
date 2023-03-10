@@ -13,14 +13,14 @@
     <a href="/pollutionLevelsByDay">Dates with Pollution Data</a>
     <a href="/dailyLocationPollution">Daily Pollution in Each Location</a>
 </nav>
-
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 {{!-- Individual Health Issues Display Table --}}
 <div id="browse">
     <h3>Browse Individual Health Issues</h3>
     <table id = "individual-health-issues-table">
         <thead>
 
-            <tr>
+            <tr data-value={{this.person_health_ID}}>
                 {{#each data.[0]}}
                 <th>
                     {{@key}}
@@ -37,11 +37,12 @@
                 <td>{{this.person_health_ID}}</td>
                 <td>{{this.person_ID}}</td>
                 <td>{{this.problem_ID}}</td>
-                <td><button onclick="deleteIndividualHeathIssue({{this.person_health_ID}})">Delete</button></td>
+                <td><button onclick="deleteIndividualHealthIssue({{this.person_health_ID}})">Delete</button></td>
             </tr>
             {{/each}}
         </tbody>
     </table>
+    <script src="./js/delete_individual_health_issue.js"></script>
 </div>
 
 <div>
