@@ -231,7 +231,7 @@ app.post('/addHealthProblem', (req, res) => {
             console.log(error);
             res.sendStatus(400);
         } else {
-            res.render('/healthProblems');
+            res.redirect('/healthProblems');
         }
     })
 });
