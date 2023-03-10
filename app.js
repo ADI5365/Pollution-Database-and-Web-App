@@ -161,13 +161,13 @@ app.post('/addPerson', (req, res) => {
 // Update existing person age and location
 app.put('/put-person-ajax', function(req, res, next){
     let data = req.body;
+    console.log(data)
   
-    let person_ID = parseInt(data.person_id);
-    let age = parseInt(data.age);
-    let location_ID = parseInt(data.location_ID)
+    let person_ID = data.person_ID;
+    let age = data.age;
+    let location_ID = data.location_ID;
   
-    let queryUpdatePeople = `UPDATE People SET age = ?, location_ID = ? WHERE People.person_ID = ?;`;
-    let selectCity = `SELECT * FROM Locations WHERE location_ID = ?;`;
+    let queryUpdatePeople = `UPDATE People SET age = ?, location_ID = ? WHERE person_ID = ?;`;
 
     db.pool.query(queryUpdatePeople, [age, location_ID, person_ID], function(error, rows, fields){
         if (error) {
@@ -175,31 +175,11 @@ app.put('/put-person-ajax', function(req, res, next){
             console.log(error);
             res.sendStatus(400);
         }
-        // If there was no error, we run our second query and return that data so we can use it to update the people's
-        // table on the front-end
-        else
-        {
-            db.pool.query(selectCity, [location_ID], function(error, rows, fields) {
-  
-                if (error) {
-                    console.log(error);
-                    res.sendStatus(400);
-                } else {
-                    let query1 = `SELECT * FROM People;`;
-                    let query2 = `SELECT * FROM Locations;`;
-
-                    db.pool.query(query1, function(error, rows, fields) {
-                        let people = rows;
-                        db.pool.query(query2, (error, rows, fields) => {
-                            let locations = rows;
-                            return res.render('people', {data: people, locations: locations})
-                        })
-                    });
-                }
-            })
+        else{
+            res.send(rows)
         }
     })
-});
+})
 
 // Delete a person
 app.delete('/delete-person-ajax/', function(req,res,next){

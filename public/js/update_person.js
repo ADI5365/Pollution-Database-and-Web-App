@@ -15,7 +15,7 @@ updatePersonForm.addEventListener("submit", function (e) {
     let inputCityValue = inputCity.value;
 
     // database table for People does not allow ID + age updating values to be NULL
-    if (isNaN(inputIDValue))
+    if (isNaN(inputIDValue) || isNaN(inputAgeValue))
     {
         return;
     }
@@ -38,10 +38,6 @@ updatePersonForm.addEventListener("submit", function (e) {
 
             // Add the new data to the table
             updateRow(xhttp.response, inputIDValue);
-
-            inputID.value = '';
-            inputAge.value = '';
-            inputCity.value = '';
 
         }
         else if (xhttp.readyState == 4 && xhttp.status != 200) {
