@@ -611,6 +611,99 @@ app.get('/dailyLocationPollution', (req, res) => {
     })
 });
 
+// Display pollution levels for a specific city
+app.get('/browseDailyLocationPollution', (req, res) =>
+    {
+        let query1;
+        if (req.query['city-input-pollution'] === '0'){
+            query1 = `SELECT * FROM Daily_Location_Pollution;`;
+        }
+        else{
+        query1 = `SELECT * FROM Daily_Location_Pollution WHERE location_ID = "${req.query['city-input-pollution']}%"`;
+        }
+    
+        let query2 = `SELECT * FROM Pollution_Levels_By_Day`;
+        let query3 = `SELECT * FROM Locations`;
+    
+        db.pool.query(query1, function(error, rows, fields) {
+            let daily_poll = rows;
+            db.pool.query(query2, function(error, rows, fields) {
+                let dates = rows;
+                db.pool.query(query3, function(error, rows, fields) {
+                    let locations = rows;
+    
+                // Display city name and date recorded instead of IDs
+                let locationmap = {}
+                locations.map(location => {
+                    let location_ID = parseInt(location.location_ID, 10);
+                    locationmap[location_ID] = location['city_name'];
+                });
+                daily_poll = daily_poll.map(dayLocPull => {
+                    return Object.assign(dayLocPull, {location_ID: locationmap[dayLocPull.location_ID]});
+                });
+            
+                let datemap = {}
+                dates.map(date => {
+                    let pollution_ID = parseInt(date.pollution_ID, 10);
+                    datemap[pollution_ID] = date['date_recorded'];
+                });
+                daily_poll = daily_poll.map(dayLocPull => {
+                    return Object.assign(dayLocPull, {pollution_ID: datemap[dayLocPull.pollution_ID]});
+                });
+            
+                return res.render('dailyLocationPollution', {data: daily_poll, dates: dates, locations: locations});
+                })
+            })
+        })
+    });
+
+// Display pollution levels for a sepcific date
+app.get('/browseDailyPollution', (req, res) =>
+    {
+        let query1;
+        if (req.query['date-input-pollution'] === '0'){
+            query1 = `SELECT * FROM Daily_Location_Pollution;`;
+        }
+        else{
+        console.log(req.query['date-input-pollution'])
+            query1 = `SELECT * FROM Daily_Location_Pollution WHERE pollution_ID = "${req.query['date-input-pollution']}%"`;
+        }
+    
+        let query2 = `SELECT * FROM Pollution_Levels_By_Day`;
+        let query3 = `SELECT * FROM Locations`;
+    
+        db.pool.query(query1, function(error, rows, fields) {
+            let daily_poll = rows;
+            db.pool.query(query2, function(error, rows, fields) {
+                let dates = rows;
+                db.pool.query(query3, function(error, rows, fields) {
+                    let locations = rows;
+    
+                // Display city name and date recorded instead of IDs
+                let locationmap = {}
+                locations.map(location => {
+                    let location_ID = parseInt(location.location_ID, 10);
+                    locationmap[location_ID] = location['city_name'];
+                });
+                daily_poll = daily_poll.map(dayLocPull => {
+                    return Object.assign(dayLocPull, {location_ID: locationmap[dayLocPull.location_ID]});
+                });
+            
+                let datemap = {}
+                dates.map(date => {
+                    let pollution_ID = parseInt(date.pollution_ID, 10);
+                    datemap[pollution_ID] = date['date_recorded'];
+                });
+                daily_poll = daily_poll.map(dayLocPull => {
+                    return Object.assign(dayLocPull, {pollution_ID: datemap[dayLocPull.pollution_ID]});
+                });
+            
+                return res.render('dailyLocationPollution', {data: daily_poll, dates: dates, locations: locations});
+                })
+            })
+        })
+    });
+
 // Add new pollution readings for specific city on specific date
 app.post('/addPollutionLevels', (req, res) => {
     let data = req.body;
