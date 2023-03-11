@@ -1,5 +1,7 @@
 # Pollution and Health Across the United States
 
+### Code adapted from cs340 nodejs-starter-app: https://github.com/osu-cs340-ecampus/nodejs-starter-app/tree/main/Step%208%20-%20Dynamically%20Updating%20Data
+
 ## Overview
 
 The Pollution and Health database is built to be used by public health officials to discern 
