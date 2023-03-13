@@ -105,4 +105,5 @@ Intersection Table 3: Individual_Health_Issues - intersection table between Peop
 ![Project Step 3 ERD](https://user-images.githubusercontent.com/85050071/222992378-a3211375-0bda-48c6-920d-397288f8f47a.png)
 
 ## Schema
-![Project Step 3 Schema](https://user-images.githubusercontent.com/85050071/222992399-6ed26ec3-8815-4561-b074-1a6c3de9deb8.png)
+![Project Step 6 Schema](https://user-images.githubusercontent.com/85050071/224847414-07daea67-3109-4dd1-b6c1-0abb825cefe6.png)
+
