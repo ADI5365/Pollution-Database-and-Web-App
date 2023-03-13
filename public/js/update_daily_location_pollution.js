@@ -1,6 +1,6 @@
 let UpdatePollutionLevelForm = document.getElementById('update-location-pollution-form-ajax');
 
-// Modifying a selected location in Locations
+// Modifying a selected pollution log in Daily Location Pollution
 UpdatePollutionLevelForm.addEventListener("submit", function (e) {
     e.preventDefault();
 
@@ -16,7 +16,7 @@ UpdatePollutionLevelForm.addEventListener("submit", function (e) {
     let NO2Value = inputNO2.value;
     let PAHValue = inputPAH.value;
 
-    // database table for Daily_Location_Pollution does not allow log_date be NULL
+    // database table for Daily_Location_Pollution does not allow log_date to be NULL
     if (isNaN(inputIDValue))
     {
         return;
@@ -56,7 +56,6 @@ UpdatePollutionLevelForm.addEventListener("submit", function (e) {
 
 
 function updateRow(data, log_date){
-    console.log("I'm in");
     let parsedData = JSON.parse(data);
     let table = document.getElementById("location-pollution-table");
 
@@ -65,9 +64,7 @@ function updateRow(data, log_date){
        //rows would be accessed using the "row" variable assigned in the for loop
        if (table.rows[i].getAttribute("data-value") == log_date) {
 
-            // Get the location of the row where we found the matching person ID
             let updateRowIndex = table.getElementsByTagName("tr")[i];
-
             let td = updateRowIndex.getElementsByTagName("td")[3];
             //td.innerHTML = parsedData[0].name
        }

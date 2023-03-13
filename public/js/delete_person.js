@@ -1,5 +1,4 @@
 function deletePerson(person_ID) {
-    // Put our data we want to send in a javascript object
     let data = {
         id: person_ID
     };

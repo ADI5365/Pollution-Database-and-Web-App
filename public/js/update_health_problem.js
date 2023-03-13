@@ -1,10 +1,7 @@
-// Get the objects we need to modify
 let updateHealthProbelmForm = document.getElementById('update-health-problem-form-ajax');
 
 // Modify the objects we need
 updateHealthProbelmForm.addEventListener("submit", function (e) {
-   
-    // Prevent the form from submitting
     e.preventDefault();
 
     // Get form fields we need to get data from
@@ -75,7 +72,6 @@ function updateRow(data, problem_ID){
             // Get the location of the row where we found the matching problem ID
             let updateRowIndex = table.getElementsByTagName("tr")[i];
             console.log(updateRowIndex)
-
             let td = updateRowIndex.getElementsByTagName("td")[2];
             console.log(td)
             
