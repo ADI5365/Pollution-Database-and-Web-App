@@ -75,7 +75,7 @@ Entity 4: Pollution_Levels_By_Day – records the details of different pollution
     as each location’s pollution levels are logged every day.
 
 Intersection Table 1: Daily_Location_Pollution - intersection table between Locations and Pollution_Levels_By_Day
-  - daily_log_ID: INT, auto-increment, unique, not NULL, PK
+  - log_date: INT, auto-increment, unique, not NULL, PK
   - location_ID: INT, FK from Locations
   - pollution_ID: INT, FK from Pollution_Levels_By_Day
   - particulate_level: DECIMAL, can be NULL
