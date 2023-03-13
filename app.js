@@ -45,6 +45,7 @@ app.post('/addLocation', (req, res) => {
     query1 = `INSERT INTO Locations (city_name, state_name, total_population) VALUES ('${data['input-city']}', '${data['input-state']}', '${data['input-population']}');`;
     db.pool.query(query1, function(error, rows, fields) {
         if(error) {
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
             console.log(error);
             res.sendStatus(400);
         } else {
@@ -114,8 +115,6 @@ app.delete('/delete-location-ajax/', function(req,res,next){
 
 
 
-
-
 // CRUD OPERATIONS FOR PEOPLE
 
 // Display table on People
@@ -158,7 +157,7 @@ app.post('/addPerson', (req, res) => {
     })
 });
 
-// Update existing person age and location
+// Update existing person age and/or location
 app.put('/put-person-ajax', function(req, res, next){
     let data = req.body;
     console.log(data)
@@ -171,7 +170,6 @@ app.put('/put-person-ajax', function(req, res, next){
 
     db.pool.query(queryUpdatePeople, [age, location_ID, person_ID], function(error, rows, fields){
         if (error) {
-            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
             console.log(error);
             res.sendStatus(400);
         }
@@ -185,14 +183,15 @@ app.put('/put-person-ajax', function(req, res, next){
 app.delete('/delete-person-ajax/', function(req,res,next){
     let data = req.body;
     let person_ID = parseInt(data.id);
+
+    // Must delete person_ID FK from all children tables before deleting it here
     let deleteIndividual_Health_Issues_Person = `DELETE FROM Individual_Health_Issues WHERE person_ID = ?;`;
     let deletePerson = `DELETE FROM People WHERE person_ID = ?;`;
 
     db.pool.query(deleteIndividual_Health_Issues_Person, [person_ID], function(error, rows, fields){
         if (error) {
-        // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-        console.log(error);
-        res.sendStatus(400);
+            console.log(error);
+            res.sendStatus(400);
         }
         else
         {
@@ -212,7 +211,7 @@ app.delete('/delete-person-ajax/', function(req,res,next){
 
 // CRUD OPERATIONS FOR HEALTH PROBLEMS
 
-// Display Health Problems table
+// Display table on Health Problems
 app.get('/healthProblems', (req, res) => {
     let query1 = `SELECT * from Health_Problems;`;
     db.pool.query(query1, function(error, rows, fields) {
@@ -236,7 +235,7 @@ app.post('/addHealthProblem', (req, res) => {
     })
 });
 
-// Update existing health problem
+// Update existing health problem characteristics and terminality
 app.put('/put-health-problem-ajax', function(req,res,next){
     let data = req.body;
     console.log(data)
@@ -247,21 +246,21 @@ app.put('/put-health-problem-ajax', function(req,res,next){
     
   
     let queryUpdateHealthProblem = `UPDATE Health_Problems SET problem_characteristics = ?, is_terminal = ? WHERE problem_ID = ?;`;
-          db.pool.query(queryUpdateHealthProblem, [problem_characteristics, is_terminal, problem_ID], function(error, rows, fields){
+        db.pool.query(queryUpdateHealthProblem, [problem_characteristics, is_terminal, problem_ID], function(error, rows, fields){
               if (error) {
-              // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
               console.log(error);
               res.sendStatus(400);
               }
               else
               {res.send(rows)}
-                                    })
-   })
+        })
+})
+
 
 
 // CRUD OPERATIONS FOR INDIVIDUAL HEALTH ISSUES
 
-// Display Individual Health Issues table
+// Display table on Individual Health Issues
 app.get('/individualHealthIssues', (req, res) => {
     let query1 = `SELECT * FROM Individual_Health_Issues;`;
     let query2 = `SELECT * FROM People;`;
@@ -334,7 +333,7 @@ app.delete('/delete-individual-health-issue-ajax', function(req,res,next){
     let healthID = parseInt(data.id);
     let delete_individual_health_issue = `DELETE FROM Individual_Health_Issues WHERE person_health_ID = ?`;
 
-          db.pool.query(delete_individual_health_issue, [healthID], function(error, rows, fields){
+        db.pool.query(delete_individual_health_issue, [healthID], function(error, rows, fields){
               if (error) {
   
               // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
@@ -346,8 +345,8 @@ app.delete('/delete-individual-health-issue-ajax', function(req,res,next){
               {
                 res.sendStatus(204);
                       }
-                  })
-              })
+        })
+})
 
 // Add new association between person and health problem
 app.post('/addIndividualHealthIssue', (req, res) => {
@@ -364,9 +363,11 @@ app.post('/addIndividualHealthIssue', (req, res) => {
     })
 });
 
+
+
 // CRUD OPERATIONS FOR CITY HEALTH ISSUES
 
-// Display Health Issues by City table
+// Display table on Health Issues by City
 app.get('/cityHealthIssues', (req, res) => {
     let query1 = `SELECT * FROM City_Health_Issues;`;
     let query2 = `SELECT * FROM Locations;`;
@@ -474,20 +475,20 @@ app.delete('/delete-city-health-issue-ajax', function(req,res,next){
     let cityHealthID = parseInt(data.id);
     let delete_city_health_issue = `DELETE FROM City_Health_Issues WHERE city_health_ID = ?`;
 
-          db.pool.query(delete_city_health_issue, [cityHealthID], function(error, rows, fields){
+        db.pool.query(delete_city_health_issue, [cityHealthID], function(error, rows, fields){
               if (error) {
-  
-              // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-              console.log(error);
-              res.sendStatus(400);
+                console.log(error);
+                res.sendStatus(400);
               }
   
               else
               {
                 res.sendStatus(204);
                       }
-                  })
-              })
+        })
+})
+
+
 
 // CRUD OPERATIONS FOR DATES WITH POLLUTION DATA
 
@@ -519,12 +520,13 @@ app.post('/addPollutionDate', (req, res) => {
 app.delete('/delete-pollution-date-ajax/', function(req,res,next){
     let data = req.body;
     let pollution_ID = parseInt(data.id);
+
+    // Must delete pollution_ID FK from all children tables before deleting it here
     let deleteDaily_Location_Pollution_Days = `DELETE FROM Daily_Location_Pollution WHERE pollution_ID = ?;`;
     let deletePollutionDate = `DELETE FROM Pollution_Levels_By_Day WHERE pollution_ID = ?;`;
 
     db.pool.query(deleteDaily_Location_Pollution_Days, [pollution_ID], function(error, rows, fields){
         if (error) {
-            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
             console.log(error);
             res.sendStatus(400);
         } else {
@@ -727,16 +729,16 @@ app.put('/put-location-pollution-ajax', function(req,res,next){
     let PAH_level = data.PAH_level;
   
     let queryUpdateLocationPollution = `UPDATE Daily_Location_Pollution SET particulate_level = ?, NO2_level = ?, PAH_level = ? WHERE log_date = ?;`;
-          db.pool.query(queryUpdateLocationPollution, [particulate_level, NO2_level, PAH_level, log_date], function(error, rows, fields){
-              if (error) {
-              // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-              console.log(error);
-              res.sendStatus(400);
-              }
-              else
-              {res.send(rows)}
-                                    })
-   })
+        db.pool.query(queryUpdateLocationPollution, [particulate_level, NO2_level, PAH_level, log_date], function(error, rows, fields){
+            if (error) {
+                console.log(error);
+                res.sendStatus(400);
+            }
+            else
+            {
+                res.send(rows)}
+        })
+});
 
 
 /*

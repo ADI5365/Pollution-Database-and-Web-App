@@ -1,5 +1,4 @@
 function deletePollutionDate(pollution_ID) {
-    // Put our data we want to send in a javascript object
     let data = {
         id: pollution_ID
     };

@@ -1,16 +1,12 @@
 addRowToTable = (data) => {
 
-    // Get a reference to the current table on the page and clear it out.
     let currentTable = document.getElementById("pollution-date-table");
-
-    // Get the location where we should insert the new row (end of table)
     let newRowIndex = currentTable.rows.length;
 
-    // Get a reference to the new row from the database query (last object)
     let parsedData = JSON.parse(data);
     let newRow = parsedData[parsedData.length - 1]
 
-    // Create a row
+    // Create a row and its cells
     let row = document.createElement("TR");
     let idCell = document.createElement("TD");
     let dateCell = document.createElement("TD");

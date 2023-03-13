@@ -67,7 +67,6 @@
             <label for="city-input-pollution"> Search a City: </label>
             <select name="city-input-pollution" id="city-input-pollution">
                 <option value="0">Select</option>
-                <!-- dynamically generated drop down -->
                 {{#each locations}}
                 <option value="{{this.location_ID}}">{{this.city_name}}</option>
                 {{/each}}               
@@ -86,7 +85,6 @@
             <label for="date-input-pollution"> Search a Date: </label>
             <select name="date-input-pollution" id="date-input-pollution">
                 <option value="0">Select</option>
-                <!-- dynamically generated drop down -->
                 {{#each dates}}
                 <option value="{{this.pollution_ID}}">{{this.date_recorded}}</option>
                 {{/each}}               
@@ -129,7 +127,7 @@
     <form id="update-location-pollution-form-ajax">
         <legend><strong>Update Pollution Levels</strong></legend>
         <fieldset class="fields">
-            <label for="city-update"> Select a Log Date to Edit: </label>
+            <label for="log_date-update"> Select a Log Date to Edit: </label>
             <select name="log-date-update" id="log-date-update">
                 <option value="select">Select</option>
                 {{#each data}}
