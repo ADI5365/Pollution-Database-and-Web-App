@@ -1,3 +1,10 @@
+/* 
+    Citation for the following function:
+    Date retrieved: 2/23/2023
+    Adapted from OSU NodeJS Starter App
+    Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app
+*/
+
 addRowToTable = (data) => {
 
     let currentTable = document.getElementById("location-pollution-table");

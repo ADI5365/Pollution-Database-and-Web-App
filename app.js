@@ -1,3 +1,10 @@
+/* 
+    Citation for the following routes:
+    Date retrieved: 2/23/2023
+    Adapted from OSU NodeJS Starter App
+    Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app
+*/
+
 /*
     SETUP
 */

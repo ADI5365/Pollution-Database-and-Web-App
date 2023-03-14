@@ -1,3 +1,5 @@
+
+
 function deleteLocation(location_ID) {
     let data = {
         id: location_ID

@@ -1,3 +1,10 @@
+/* 
+    Citation for the following functions:
+    Date retrieved: 2/23/2023
+    Adapted from OSU NodeJS Starter App
+    Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app
+*/
+
 let updatePersonForm = document.getElementById('update-person-form-ajax');
 
 // Modifying a selected person in People
