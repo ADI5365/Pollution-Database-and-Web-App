@@ -2,6 +2,10 @@
 <header>
     <h1>Health Issues by City</h1>
 </header>
+<head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="./js/delete_city_health_issue.js"></script>
+</head>
 
 {{!-- Nav bar for links to all pages on the site --}}
 <nav>
@@ -22,11 +26,9 @@
         <thead>
 
             <tr data-value={{this.city_health_ID}}>
-                {{#each data.[0]}}
-                <th>
-                    {{@key}}
-                </th>
-                {{/each}}
+                <th>City Health ID</th>
+                <th>City</th>
+                <th>Health Problem</th>
                 <th>Delete</th>
             </tr>
         </thead>
@@ -34,7 +36,7 @@
         <tbody>
 
             {{#each data}}
-            <tr>
+            <tr data-value={{this.city_health_ID}}>
                 <td>{{this.city_health_ID}}</td>
                 <td>{{this.location_ID}}</td>
                 <td>{{this.problem_ID}}</td>
@@ -43,7 +45,6 @@
             {{/each}}
         </tbody>
     </table>
-    <script src="./js/delete_city_health_issue.js"></script>
 </div>
 
 <div>

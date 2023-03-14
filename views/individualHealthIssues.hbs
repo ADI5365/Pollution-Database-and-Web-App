@@ -21,11 +21,9 @@
         <thead>
 
             <tr data-value={{this.person_health_ID}}>
-                {{#each data.[0]}}
-                <th>
-                    {{@key}}
-                </th>
-                {{/each}}
+                <th>Person Health ID</th>
+                <th>Person ID</th>
+                <th>Health Problem</th>
                 <th>Delete</th>
             </tr>
         </thead>
@@ -33,7 +31,7 @@
         <tbody>
 
             {{#each data}}
-            <tr>
+            <tr data-value={{this.person_health_ID}}>
                 <td>{{this.person_health_ID}}</td>
                 <td>{{this.person_ID}}</td>
                 <td>{{this.problem_ID}}</td>
@@ -42,7 +40,6 @@
             {{/each}}
         </tbody>
     </table>
-    <script src="./js/delete_individual_health_issue.js"></script>
 </div>
 
 <div>

@@ -24,11 +24,13 @@
         <thead>
 
             <tr>
-                {{#each data.[0]}}
-                <th>
-                    {{@key}}
-                </th>
-                {{/each}}
+                <th>Daily Log ID</th>
+                <th>City</th>
+                <th>Date Recorded</th>
+                <th>Particulate Level</th>
+                <th>NO2 Level</th>
+                <th>PAH Level</th>
+                <th>Delete</th>
             </tr>
         </thead>
 
@@ -47,7 +49,6 @@
             {{/each}}
         </tbody>
     </table>
-    <script src="./js/delete_location_pollution.js"></script>
 </div>
 
 <div>

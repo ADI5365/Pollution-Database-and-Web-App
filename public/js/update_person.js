@@ -39,6 +39,10 @@ updatePersonForm.addEventListener("submit", function (e) {
             // Add the new data to the table
             updateRow(xhttp.response, inputIDValue);
 
+            inputID.value = '';
+            inputAge.value = '';
+            inputCity.value = '';
+
         }
         else if (xhttp.readyState == 4 && xhttp.status != 200) {
             console.log("There was an error with the input.")
@@ -65,7 +69,7 @@ function updateRow(data, person_ID){
             let updateRowIndex = table.getElementsByTagName("tr")[i];
 
             let td = updateRowIndex.getElementsByTagName("td")[2];
-            // td.innerHTML = parsedData[0].name
+            td.innerHTML = parsedData[0].name
        }
     }
 }

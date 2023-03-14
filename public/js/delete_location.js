@@ -33,7 +33,18 @@ function deleteRow(location_ID){
        //rows would be accessed using the "row" variable assigned in the for loop
        if (table.rows[i].getAttribute("data-value") == location_ID) {
             table.deleteRow(i);
+            deleteDropDownMenu(location_ID);
             break;
        }
     }
-}
+};
+
+function deleteDropDownMenu(location_ID){
+  let selectMenu = document.getElementById("input-location_ID");
+  for (let i = 0; i < selectMenu.length; i++){
+    if (Number(selectMenu.options[i].value) === Number(location_ID)){
+      selectMenu[i].remove();
+      break;
+    }
+  }
+};

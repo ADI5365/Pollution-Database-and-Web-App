@@ -3,7 +3,7 @@
 */
 var express = require('express');
 var app = express();
-PORT = 3000;
+PORT = 63129;
 var db = require('./database/db-connector');
 
 app.use(express.json());
@@ -55,7 +55,7 @@ app.post('/addLocation', (req, res) => {
 });
 
 // Update existing location population
-app.put('/put-location-ajax', (req, res) => {
+app.put('/put-location-ajax', (req, res, next) => {
     let data = req.body;
     let population = parseInt(data.population);
     let city = parseInt(data.city_name);
@@ -327,6 +327,21 @@ app.get('/browseIndividualHealthIssue', (req, res) =>
     })
 });
 
+// Add new association between person and health problem
+app.post('/addIndividualHealthIssue', (req, res) => {
+    let data = req.body;
+
+    query1 = `INSERT INTO Individual_Health_Issues (person_ID, problem_ID) VALUES ('${data['person-input']}', '${data['health-problem-input']}');`;
+    db.pool.query(query1, function(error, rows, fields) {
+        if(error) {
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            res.redirect('/individualHealthIssues');
+        }
+    })
+});
+
 // Delete individual health issue
 app.delete('/delete-individual-health-issue-ajax', function(req,res,next){
     let data = req.body;
@@ -347,21 +362,6 @@ app.delete('/delete-individual-health-issue-ajax', function(req,res,next){
                       }
         })
 })
-
-// Add new association between person and health problem
-app.post('/addIndividualHealthIssue', (req, res) => {
-    let data = req.body;
-
-    query1 = `INSERT INTO Individual_Health_Issues (person_ID, problem_ID) VALUES ('${data['person-input']}', '${data['health-problem-input']}');`;
-    db.pool.query(query1, function(error, rows, fields) {
-        if(error) {
-            console.log(error);
-            res.sendStatus(400);
-        } else {
-            res.redirect('/individualHealthIssues');
-        }
-    })
-});
 
 
 
@@ -472,21 +472,20 @@ app.post('/addCityHealthIssue', (req, res) => {
 // Delete city health issue
 app.delete('/delete-city-health-issue-ajax', function(req,res,next){
     let data = req.body;
-    let cityHealthID = parseInt(data.id);
+    let city_health_ID = parseInt(data.id);
     let delete_city_health_issue = `DELETE FROM City_Health_Issues WHERE city_health_ID = ?`;
 
-        db.pool.query(delete_city_health_issue, [cityHealthID], function(error, rows, fields){
-              if (error) {
-                console.log(error);
-                res.sendStatus(400);
-              }
-  
-              else
-              {
-                res.sendStatus(204);
-                      }
-        })
-})
+    db.pool.query(delete_city_health_issue, [city_health_ID], function(error, rows, fields){
+        if (error) {
+            console.log(error);
+            res.sendStatus(400);
+        }
+        else
+        {
+            res.sendStatus(204);
+        }
+    })
+});
 
 
 
@@ -701,23 +700,6 @@ app.post('/addPollutionLevels', (req, res) => {
     })
 });
 
-// Delete a city's log for pollution on a date
-app.delete('/delete-daily-locpoll-ajax', function(req,res,next){
-    let data = req.body;
-    let log_date = parseInt(data.id);
-    let deleteDailyLocPoll = `DELETE FROM Daily_Location_Pollution WHERE log_date = ?;`;
-
-    db.pool.query(deleteDailyLocPoll, [log_date], function(error, rows, fields){
-        if (error) {
-        // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-        console.log(error);
-        res.sendStatus(400);
-        } else {
-            res.sendStatus(204);
-        }
-    })
-});
-
 // Update pollution levels for a specific log date
 app.put('/put-location-pollution-ajax', function(req,res,next){
     let data = req.body;
@@ -740,10 +722,27 @@ app.put('/put-location-pollution-ajax', function(req,res,next){
         })
 });
 
+// Delete a city's log for pollution on a date
+app.delete('/delete-daily-locpoll-ajax', function(req,res,next){
+    let data = req.body;
+    let log_date = parseInt(data.id);
+    let deleteDailyLocPoll = `DELETE FROM Daily_Location_Pollution WHERE log_date = ?;`;
+
+    db.pool.query(deleteDailyLocPoll, [log_date], function(error, rows, fields){
+        if (error) {
+        // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+        console.log(error);
+        res.sendStatus(400);
+        } else {
+            res.sendStatus(204);
+        }
+    })
+});
+
 
 /*
     LISTENER
 */
 app.listen(PORT, () => {
-    console.log('Express started on http://localhost:' + PORT + '; press Ctrl-C to terminate.')
+    console.log('Express started on http://flip3.engr.oregonstate.edu:' + PORT + '; press Ctrl-C to terminate.')
 });

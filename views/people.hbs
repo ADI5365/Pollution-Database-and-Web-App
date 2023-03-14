@@ -27,11 +27,9 @@
         <thead>
     
             <tr>
-                {{#each data.[0]}}
-                <th>
-                    {{@key}}
-                </th>
-                {{/each}}
+                <th>Person ID</th>
+                <th>Age</th>
+                <th>City</th>
                 <th>Delete</th>
             </tr>
         </thead>
@@ -82,7 +80,7 @@
         <legend><strong>Update Person</strong></legend>
         <fieldset class="fields">
             <label for="input-person_ID"> Select a Person: </label>
-            <select name="input-person_ID" id="input-person_ID">
+            <select name="input-person_ID" id="input-person_ID" required="required">
                 <option value="">Select the Person's ID</option>
                 {{#each data}}
                 <option value="{{this.person_ID}}">{{this.person_ID}}</option>

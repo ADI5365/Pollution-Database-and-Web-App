@@ -25,20 +25,19 @@
 
     <table id="location-table">
         <thead>
-    
             <tr>
-                {{#each data.[0]}}
-                <th>
-                    {{@key}}
-                </th>
-                {{/each}}
+                <th>Location ID</th>
+                <th>City Name</th>
+                <th>State Name</th>
+                <th>Population</th>
+                <th>Delete</th>
             </tr>
         </thead>
     
         <tbody>
     
             {{#each data}}
-            <tr>
+            <tr data-value={{this.location_ID}}>
                 <td>{{this.location_ID}}</td>
                 <td>{{this.city_name}}</td>
                 <td>{{this.state_name}}</td>
@@ -48,7 +47,6 @@
             {{/each}}
         </tbody>
     </table>
-    <script src="./js/delete_location.js"></script>
 </div>
 
 <div>

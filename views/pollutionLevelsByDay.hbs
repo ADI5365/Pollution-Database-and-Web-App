@@ -24,18 +24,16 @@
         <thead>
 
             <tr>
-                {{#each data.[0]}}
-                <th>
-                    {{@key}}
-                </th>
-                {{/each}}
+                <th>Pollution ID</th>
+                <th>Date Recorded</th>
+                <th>Delete</th>
             </tr>
         </thead>
 
         <tbody>
 
             {{#each data}}
-            <tr>
+            <tr data-value={{this.pollution_ID}}>
                 <td>{{this.pollution_ID}}</td>
                 <td>{{this.date_recorded}}</td>
                 <td><button onclick="deletePollutionDate({{this.pollution_ID}})">Delete</button></td>
@@ -43,7 +41,6 @@
             {{/each}}
         </tbody>
     </table>
-    <script src="./js/delete_pollution_date.js"></script>
 </div>
 
 <!-- Add new date on which data was collected -->
