@@ -84,7 +84,6 @@
             <label for="health-problem-input"> Select a Health Problem: </label>
             <select name="health-problem-input" id="health-problem-input" required="required">
                 <option value="select">Select</option>
-                <!-- dynamically generated drop down -->
                 {{#each data}}
                 <option value="{{this.problem_ID}}">{{this.problem_name}}</option>
                 {{/each}}                

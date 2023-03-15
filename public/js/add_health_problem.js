@@ -36,9 +36,9 @@ addRowToTable = (data) => {
     // Add the row to the table
     currentTable.appendChild(row);
 
-    let selectMenu = document.getElementById("input-location_ID");
+    let selectMenu = document.getElementById("health-problem-input");
     let option = document.createElement("option");
-    option.text = newRow.city;
-    option.value = newRow.location_ID;
+    option.text = newRow.problem_name;
+    option.value = newRow.problem_id;
     selectMenu.add(option);
 }

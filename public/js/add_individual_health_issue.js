@@ -43,4 +43,16 @@ addRowToTable = (data) => {
     // Add the row to the table
     console.log(row)
     currentTable.appendChild(row);
-}
+
+    let problemMenu = document.getElementById("health-problem-input");
+    let problemOption = document.createElement("option");
+    problemOption.text = newRow.problem_ID;
+    problemOption.value = newRow.problem_ID;
+    problemMenu.add(problemOption);
+
+    let personMenu = document.getElementById("person-input");
+    let personOption = document.createElement("option");
+    personOption.text = newRow.person_ID;
+    personOption.value = newRow.person_ID;
+    personMenu.add(optpersonOptionion);
+};
