@@ -55,10 +55,9 @@ updatePersonForm.addEventListener("submit", function (e) {
 
     // Send the request and wait for the response
     xhttp.send(JSON.stringify(data));
-    console.log(data)
+    console.log(data);
 
 })
-
 
 function updateRow(data, location_ID){
     let parsedData = JSON.parse(data);
@@ -73,7 +72,7 @@ function updateRow(data, location_ID){
             let updateRowIndex = table.getElementsByTagName("tr")[i];
 
             let td = updateRowIndex.getElementsByTagName("td")[3];
-            td.innerHTML = parsedData[0].name
+            // td.innerHTML = parsedData[0].name
        }
     }
 }

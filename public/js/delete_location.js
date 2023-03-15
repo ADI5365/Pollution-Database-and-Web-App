@@ -1,4 +1,9 @@
-
+/* 
+    Citation for the following functions:
+    Date retrieved: 2/23/2023
+    Adapted from OSU NodeJS Starter App
+    Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app
+*/
 
 function deleteLocation(location_ID) {
     let data = {

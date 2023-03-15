@@ -5,9 +5,9 @@
     Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app
 */
 
-function deleteIndividualHealthIssue(healthID) {
+function deleteIndividualHealthIssue(indiv_health_ID) {
     let data = {
-      id: healthID
+      id: indiv_health_ID
     };
   
     // Setup our AJAX request
@@ -20,7 +20,7 @@ function deleteIndividualHealthIssue(healthID) {
         if (xhttp.readyState == 4 && xhttp.status == 204) {
 
             // Add the new data to the table
-            deleteRow(healthID);
+            deleteRow(indiv_health_ID);
 
         }
         else if (xhttp.readyState == 4 && xhttp.status != 204) {
@@ -32,13 +32,13 @@ function deleteIndividualHealthIssue(healthID) {
 }
 
 
-function deleteRow(healthID){
+function deleteRow(indiv_health_ID){
 
     let table = document.getElementById("individual-health-issues-table");
     for (let i = 0, row; row = table.rows[i]; i++) {
        //iterate through rows
        //rows would be accessed using the "row" variable assigned in the for loop
-       if (table.rows[i].getAttribute("data-value") == healthID) {
+       if (table.rows[i].getAttribute("data-value") == indiv_health_ID) {
             table.deleteRow(i);
             break;
        }
