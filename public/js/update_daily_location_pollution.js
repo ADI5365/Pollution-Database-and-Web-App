@@ -50,6 +50,13 @@ UpdatePollutionLevelForm.addEventListener("submit", function (e) {
             // Add the new data to the table
             updateRow(xhttp.response, inputIDValue);
 
+            inputID.value = '';
+            inputParticulate.value = '';
+            inputNO2.value = '';
+            inputPAH.value = '';
+            location.reload();
+            window.scrollTo(0, 0);
+
         }
         else if (xhttp.readyState == 4 && xhttp.status != 200) {
             console.log("There was an error with the input.")

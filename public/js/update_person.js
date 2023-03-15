@@ -49,6 +49,8 @@ updatePersonForm.addEventListener("submit", function (e) {
             inputID.value = '';
             inputAge.value = '';
             inputCity.value = '';
+            location.reload();
+            window.scrollTo(0, 0);
 
         }
         else if (xhttp.readyState == 4 && xhttp.status != 200) {

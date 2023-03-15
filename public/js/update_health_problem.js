@@ -52,6 +52,11 @@ updateHealthProbelmForm.addEventListener("submit", function (e) {
             console.log('going thru table')
             
             updateRow(xhttp.response, inputIDValue);
+            inputCharacteristics.value = '';
+            inputID.value = '';
+            inputTerminal.value = '';
+            location.reload();
+            window.scrollTo(0, 0);
 
         }
         else if (xhttp.readyState == 4 && xhttp.status != 200) {

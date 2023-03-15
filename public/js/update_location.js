@@ -46,6 +46,8 @@ updatePersonForm.addEventListener("submit", function (e) {
 
             inputCityName.value = '';
             inputPopulation.value = '';
+            location.reload();
+            window.scrollTo(0, 0);
 
         }
         else if (xhttp.readyState == 4 && xhttp.status != 200) {
@@ -72,7 +74,7 @@ function updateRow(data, location_ID){
             let updateRowIndex = table.getElementsByTagName("tr")[i];
 
             let td = updateRowIndex.getElementsByTagName("td")[3];
-            // td.innerHTML = parsedData[0].name
+            // td.innerHTML = parsedData[0].city_name
        }
     }
-}
+};
