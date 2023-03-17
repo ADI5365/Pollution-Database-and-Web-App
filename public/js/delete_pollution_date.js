@@ -6,6 +6,10 @@
 */
 
 function deletePollutionDate(pollution_ID) {
+    if (confirm("Are you sure you want to delete this date?") === false) {
+        return;
+    }
+
     let data = {
         id: pollution_ID
     };

@@ -6,6 +6,10 @@
 */
 
 function deleteDailyLocPoll(log_date) {
+    if (confirm("Are you sure you want to delete this pollution entry?") === false) {
+        return;
+    }
+
     let data = {
         id: log_date
     };

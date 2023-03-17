@@ -6,6 +6,10 @@
 */
 
 function deleteIndividualHealthIssue(indiv_health_ID) {
+    if (confirm("Are you sure you want to delete this individual health issue?") === false) {
+        return;
+    }
+
     let data = {
       id: indiv_health_ID
     };

@@ -6,6 +6,10 @@
 */
 
 function deletePerson(person_ID) {
+    if (confirm("Are you sure you want to delete this person?") === false) {
+        return;
+    }
+
     let data = {
         id: person_ID
     };

@@ -6,6 +6,10 @@
 */
 
 function deleteLocation(location_ID) {
+    if (confirm("Are you sure you want to delete this location?") === false) {
+        return;
+    }
+
     let data = {
         id: location_ID
     };

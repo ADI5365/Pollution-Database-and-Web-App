@@ -1,8 +1,9 @@
 /* 
     Citation for the following routes:
-    Date retrieved: 2/23/2023
-    Adapted from OSU NodeJS Starter App
+    Date retrieved: 2/23/2023, 3/17/2023
+    Adapted from OSU NodeJS Starter App, Stack Overflow
     Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app
+    https://stackoverflow.com/questions/32260117/handlebars-date-format-issue
 */
 
 /*
@@ -10,7 +11,7 @@
 */
 var express = require('express');
 var app = express();
-PORT = 63129;
+PORT = 3000;
 var db = require('./database/db-connector');
 
 app.use(express.json());
@@ -21,6 +22,8 @@ app.use(express.static(__dirname + '/public'));
 const { engine } = require('express-handlebars');
 app.engine('.hbs', engine({extname: "hbs"}));
 app.set('view engine', 'hbs');
+
+var helpers = require('handlebars-helpers')();
 
 
 /*
@@ -645,7 +648,7 @@ app.get('/browseDailyLocationPollution', (req, res) =>
         })
     });
 
-// Display pollution levels for a sepcific date
+// Display pollution levels for a specific date
 app.get('/browseDailyPollution', (req, res) =>
     {
         let query1;
@@ -745,7 +748,6 @@ app.delete('/delete-daily-locpoll-ajax', function(req,res,next){
         }
     })
 });
-
 
 /*
     LISTENER

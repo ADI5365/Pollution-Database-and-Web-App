@@ -6,6 +6,10 @@
 */
 
 function deleteCityHealthIssue(city_health_ID) {
+    if (confirm("Are you sure you want to delete this city health issue?") === false) {
+        return;
+    }
+
     let data = {
       id: city_health_ID
     };
