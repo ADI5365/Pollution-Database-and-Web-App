@@ -42,7 +42,16 @@
                 <td>{{this.problem_ID}}</td>
                 <td>{{this.problem_name}}</td>
                 <td>{{this.problem_characteristics}}</td>
-                <td>{{this.is_terminal}}</td>
+                {{#compare this.is_terminal 'equal' 0}}
+                <td>No</td>
+                {{/compare}}
+                {{#compare this.is_terminal 'equal' 1}}
+                <td>Yes</td>
+                {{/compare}}
+                {{#compare this.is_terminal 'equal' NULL}}
+                <td></td>
+                {{/compare}}
+                
             </tr>
             {{/each}}
         </tbody>
