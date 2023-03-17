@@ -3,10 +3,10 @@
     Date retrieved: 2/23/2023, 3/17/2023
     Adapted from OSU NodeJS Starter App, Stack Overflow, handlebarsjs
     Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app
-    https://stackoverflow.com/questions/32260117/handlebars-date-format-issue
-    https://stackoverflow.com/questions/41764373/how-to-register-custom-handlebars-helpers
-    https://stackoverflow.com/questions/33316562/how-to-compare-a-value-in-handlebars
-    https://handlebarsjs.com/guide/block-helpers.html#conditionals
+    https://stackoverflow.com/questions/32260117/handlebars-date-format-issue (used to format dates)
+    https://stackoverflow.com/questions/41764373/how-to-register-custom-handlebars-helpers (used to register custom handlebars helper)
+    https://stackoverflow.com/questions/33316562/how-to-compare-a-value-in-handlebars (used to compare values in handlebars)
+    https://handlebarsjs.com/guide/block-helpers.html#conditionals (used to compare values in handlebars)
 
 */
 
@@ -29,11 +29,11 @@ app.set('view engine', 'hbs');
 
 var hbsHelpers = require('handlebars-helpers')();
 
-// Set-up to register custom handlebars helper
+// Set-up to register custom handlebars helper; this code was adapted from https://stackoverflow.com/questions/41764373/how-to-register-custom-handlebars-helpers
 var expressHandlebars =  require('express-handlebars');
 var handle = expressHandlebars.create({});
 
-// Create custom helper that will compare values in handlebars
+// Create custom helper that will compare values in handlebars; this code was adapted from https://stackoverflow.com/questions/33316562/how-to-compare-a-value-in-handlebars and https://handlebarsjs.com/guide/block-helpers.html#conditionals
 handle.handlebars.registerHelper("compare", function(compare1, operator, compare2, options) {
     var operators = {
         'equal': function(a, b) {return a == b}

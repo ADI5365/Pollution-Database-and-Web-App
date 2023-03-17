@@ -1,8 +1,9 @@
 {{!--
     Citation for the following View:
     Date retrieved: 2/23/2023
-    Adapted from OSU NodeJS Starter App
+    Adapted from OSU NodeJS Starter App, Stack Overflow
     Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app
+    https://stackoverflow.com/questions/33316562/how-to-compare-a-value-in-handlebars (used to compare is_terminal values in handlebars)
 --}}
 
 <header>
@@ -97,7 +98,7 @@
                 <option value="{{this.problem_ID}}">{{this.problem_name}}</option>
                 {{/each}}                
             </select>
-            <label> Health Issue Characteristics </label> <input type="text" name="health issue characteristics" id = "characteristics-input2">
+            <label> Health Issue Characteristics </label> <input type="text" pattern="[a-zA-Z]*" oninvalid="setCustomValidity('Please enter alphabetical letters.')" oninput="setCustomValidity('')" name="health issue characteristics" id = "characteristics-input2">
             <label for="terminal"> is Terminal? </label>
             <select name="terminal" id="terminal" required="required">
                 <option value="select">Select No/Yes</option>

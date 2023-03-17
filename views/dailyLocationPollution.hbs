@@ -1,8 +1,9 @@
 {{!--
     Citation for the following View:
-    Date retrieved: 2/23/2023
-    Adapted from OSU NodeJS Starter App
+    Date retrieved: 2/23/2023, 3/17/2023
+    Adapted from OSU NodeJS Starter App, Stack Overflow
     Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app
+    https://stackoverflow.com/questions/32260117/handlebars-date-format-issue (used to format dates)
 --}}
 
 <header>
@@ -47,7 +48,7 @@
             <tr data-value="{{this.log_date}}">
                 <td>{{this.log_date}}</td>
                 <td>{{this.location_ID}}</td>
-                <td>{{this.pollution_ID}}</td>
+                <td>{{moment this.pollution_ID format = "MMMM DD, YYYY (dddd)"}}</td>
                 <td>{{this.particulate_level}}</td>
                 <td>{{this.NO2_level}}</td>
                 <td>{{this.PAH_level}}</td>
