@@ -1,8 +1,12 @@
 {{!--
     Citation for the following View:
-    Date retrieved: 2/23/2023
-    Adapted from OSU NodeJS Starter App
+    Date retrieved: 2/23/2023, 3/17/2023
+    Adapted from OSU NodeJS Starter App, Stack Overflow
     Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app
+    https://stackoverflow.com/questions/10361460/how-can-i-change-or-remove-html-form-validation-default-error-messages
+    https://stackoverflow.com/questions/29823591/html-input-do-not-allow-numbers
+    https://stackoverflow.com/questions/39141094/html5-validation-error-stuck-in-an-invalid-loop
+
 --}}
 
 <html>
@@ -69,8 +73,8 @@
     <form id="addLocation" method="POST" action="/addLocation">
         <legend><strong>Add Location</strong></legend>
         <fieldset class="fields">
-            <label> City Name </label> <input type="text" name="input-city" id="input-city" required="required">
-            <label> State Name </label> <input type="text" name="input-state" id="input-state" required="required">
+            <label> City Name </label> <input type="text" pattern="[a-zA-Z]*" oninvalid="setCustomValidity('Please enter alphabetical letters.')" oninput="setCustomValidity('')" name="input-city" id="input-city" required="required">
+            <label> State Name </label> <input type="text" pattern="[a-zA-Z]*" oninvalid="setCustomValidity('Please enter alphabetical letters.')" oninput="setCustomValidity('')" name="input-state" id="input-state" required="required">
             <label> Population </label> <input type="number" name="input-population" id="input-population" required="required">
         </fieldset>
         <input class="btn" type="submit" id="addLocation" value="Add Location">
