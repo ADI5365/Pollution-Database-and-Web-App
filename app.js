@@ -2,7 +2,7 @@
     Citation for the following routes:
     Date retrieved: 2/23/2023, 3/17/2023
     Adapted from OSU NodeJS Starter App, Stack Overflow, handlebarsjs
-    Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app
+    Source URL: https://github.com/osu-cs340-ecampus/nodejs-starter-app (used to set up database conenction and for each CRUD operation)
     https://stackoverflow.com/questions/32260117/handlebars-date-format-issue (used to format dates)
     https://stackoverflow.com/questions/41764373/how-to-register-custom-handlebars-helpers (used to register custom handlebars helper)
     https://stackoverflow.com/questions/33316562/how-to-compare-a-value-in-handlebars (used to compare values in handlebars)
