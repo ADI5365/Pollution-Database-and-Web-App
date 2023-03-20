@@ -15,7 +15,7 @@
 */
 var express = require('express');
 var app = express();
-PORT = 3000;
+PORT = 63145;
 var db = require('./database/db-connector');
 
 app.use(express.json());

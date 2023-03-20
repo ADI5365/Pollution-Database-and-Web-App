@@ -73,7 +73,7 @@
         <legend><strong>Add Health Problem</strong></legend>
         <fieldset class="fields">
             <label> Health Issue </label> <input type="text" pattern="[a-zA-Z]*" oninvalid="setCustomValidity('Please enter alphabetical letters.')" oninput="setCustomValidity('')" name="health-issue-input" id="health-issue-input" required="required">
-            <label> Health Issue Characteristics </label> <input type="text" pattern="[a-zA-Z]*" oninvalid="setCustomValidity('Please enter alphabetical letters.')" oninput="setCustomValidity('')" name="characteristics-input" id="characteristics-input" required="required">
+            <label> Health Issue Characteristics </label> <input type="text" name="characteristics-input" id="characteristics-input" required="required">
             <label for="terminal-input"> is Terminal? </label>
             <select name="terminal-input" id="terminal-input" required="required">
                 <option value="select">Select No/Yes or NULL</option>
@@ -98,7 +98,7 @@
                 <option value="{{this.problem_ID}}">{{this.problem_name}}</option>
                 {{/each}}                
             </select>
-            <label> Health Issue Characteristics </label> <input type="text" pattern="[a-zA-Z]*" oninvalid="setCustomValidity('Please enter alphabetical letters.')" oninput="setCustomValidity('')" name="health issue characteristics" id = "characteristics-input2">
+            <label> Health Issue Characteristics </label> <input type="text" name="health issue characteristics" id = "characteristics-input2">
             <label for="terminal"> is Terminal? </label>
             <select name="terminal" id="terminal" required="required">
                 <option value="select">Select No/Yes</option>
