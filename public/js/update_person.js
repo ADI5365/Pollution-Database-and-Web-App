@@ -78,7 +78,7 @@ function updateRow(data, person_ID){
             let updateRowIndex = table.getElementsByTagName("tr")[i];
 
             let td = updateRowIndex.getElementsByTagName("td")[2];
-            td.innerHTML = parsedData[0].name
+            //td.innerHTML = parsedData[0].name
        }
     }
 }
